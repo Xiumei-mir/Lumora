@@ -1,1 +1,134 @@
- / / I n i t i a l i z e P o s t g r e S Q L s c h e m a + s e e d a w a l s e r v i c e s i m p o r t p o o l f r o m ' . / d b . j s ' ; a s y n c f u n c t i o n m a i n ( ) { c o n s t c l i e n t = a w a i t p o o l . c o n n e c t ( ) ; t r y { a w a i t c l i e n t . q u e r y ( ` C R E A T E T A B L E I F N O T E X I S T S u s e r s ( i d S E R I A L P R I M A R Y K E Y , n a m e T E X T N O T N U L L , e m a i l T E X T U N I Q U E N O T N U L L , p a s s w o r d _ h a s h T E X T N O T N U L L , r o l e T E X T N O T N U L L D E F A U L T ' c l i e n t ' , p h o n e T E X T , s e g m e n t T E X T , c o m p a n y T E X T , c r e a t e d _ a t T I M E S T A M P T Z D E F A U L T n o w ( ) ) ; C R E A T E T A B L E I F N O T E X I S T S l e a d s ( i d S E R I A L P R I M A R Y K E Y , n a m e T E X T N O T N U L L , e m a i l T E X T N O T N U L L , p h o n e T E X T , s e g m e n t T E X T , s e r v i c e T E X T , m e s s a g e T E X T , s t a t u s T E X T N O T N U L L D E F A U L T ' n e w ' , c r e a t e d _ a t T I M E S T A M P T Z D E F A U L T n o w ( ) ) ; C R E A T E T A B L E I F N O T E X I S T S s e r v i c e s ( i d S E R I A L P R I M A R Y K E Y , k e y T E X T U N I Q U E N O T N U L L , t i t l e T E X T N O T N U L L , d e s c r i p t i o n T E X T , a c t i v e B O O L E A N D E F A U L T T R U E ) ; C R E A T E T A B L E I F N O T E X I S T S o r d e r s ( i d S E R I A L P R I M A R Y K E Y , c o d e T E X T U N I Q U E N O T N U L L , u s e r _ i d I N T E G E R N O T N U L L R E F E R E N C E S u s e r s ( i d ) , s e r v i c e _ i d I N T E G E R R E F E R E N C E S s e r v i c e s ( i d ) , p a c k a g e _ n a m e T E X T , s t a t u s T E X T N O T N U L L D E F A U L T ' m e n u n g g u _ p e m b a y a r a n ' , p r i o r i t y T E X T D E F A U L T ' n o r m a l ' , t o t a l N U M E R I C , p a i d N U M E R I C D E F A U L T 0 , b r i e f T E X T , a s s i g n e d _ t o I N T E G E R R E F E R E N C E S u s e r s ( i d ) , d u e _ d a t e D A T E , c r e a t e d _ a t T I M E S T A M P T Z D E F A U L T n o w ( ) , u p d a t e d _ a t T I M E S T A M P T Z D E F A U L T n o w ( ) ) ; C R E A T E T A B L E I F N O T E X I S T S o r d e r _ e v e n t s ( i d S E R I A L P R I M A R Y K E Y , o r d e r _ i d I N T E G E R N O T N U L L R E F E R E N C E S o r d e r s ( i d ) , s t a t u s T E X T N O T N U L L , n o t e T E X T , a c t o r T E X T , c r e a t e d _ a t T I M E S T A M P T Z D E F A U L T n o w ( ) ) ; C R E A T E T A B L E I F N O T E X I S T S p a y m e n t s ( i d S E R I A L P R I M A R Y K E Y , o r d e r _ i d I N T E G E R N O T N U L L R E F E R E N C E S o r d e r s ( i d ) , m e t h o d T E X T , a m o u n t N U M E R I C , s t a t u s T E X T D E F A U L T ' p e n d i n g ' , r e f e r e n c e T E X T , c r e a t e d _ a t T I M E S T A M P T Z D E F A U L T n o w ( ) ) ; C R E A T E T A B L E I F N O T E X I S T S f i l e s ( i d S E R I A L P R I M A R Y K E Y , o r d e r _ i d I N T E G E R N O T N U L L R E F E R E N C E S o r d e r s ( i d ) , u s e r _ i d I N T E G E R R E F E R E N C E S u s e r s ( i d ) , k i n d T E X T D E F A U L T ' u p l o a d ' , f i l e n a m e T E X T N O T N U L L , s t o r e d _ p a t h T E X T N O T N U L L , s i z e I N T E G E R , v e r s i o n I N T E G E R D E F A U L T 1 , c r e a t e d _ a t T I M E S T A M P T Z D E F A U L T n o w ( ) ) ; C R E A T E T A B L E I F N O T E X I S T S m e s s a g e s ( i d S E R I A L P R I M A R Y K E Y , o r d e r _ i d I N T E G E R N O T N U L L R E F E R E N C E S o r d e r s ( i d ) , s e n d e r _ i d I N T E G E R R E F E R E N C E S u s e r s ( i d ) , b o d y T E X T N O T N U L L , a t t a c h m e n t _ i d I N T E G E R R E F E R E N C E S f i l e s ( i d ) , c r e a t e d _ a t T I M E S T A M P T Z D E F A U L T n o w ( ) ) ; C R E A T E T A B L E I F N O T E X I S T S b o o k i n g s ( i d S E R I A L P R I M A R Y K E Y , u s e r _ i d I N T E G E R R E F E R E N C E S u s e r s ( i d ) , n a m e T E X T , e m a i l T E X T , s l o t T E X T , d u r a t i o n I N T E G E R D E F A U L T 3 0 , m e t h o d T E X T D E F A U L T ' z o o m ' , s t a t u s T E X T D E F A U L T ' p e n d i n g ' , c r e a t e d _ a t T I M E S T A M P T Z D E F A U L T n o w ( ) ) ; ` ) ; / / S e e d s e r v i c e s c o n s t s v c = [ [ ' o l a h - d a t a ' , ' O l a h D a t a & A n a l i s i s S t a t i s t i k ' ] , [ ' d e s a i n - p e n e l i t i a n ' , ' D e s a i n P e n e l i t i a n & S u r v e i ' ] , [ ' p e n d a m p i n g a n ' , ' P e n d a m p i n g a n S k r i p s i & J u r n a l ' ] , [ ' d a t a - s c i e n c e ' , ' D a t a S c i e n c e & B I ' ] , [ ' p e l a t i h a n ' , ' P e l a t i h a n & W o r k s h o p ' ] , [ ' c u s t o m ' , ' P e n a w a r a n C u s t o m ' ] ] ; f o r ( c o n s t [ k , t ] o f s v c ) { a w a i t c l i e n t . q u e r y ( ' I N S E R T I N T O s e r v i c e s ( k e y , t i t l e ) V A L U E S ( $ 1 , $ 2 ) O N C O N F L I C T ( k e y ) D O N O T H I N G ' , [ k , t ] ) ; } c o n s o l e . l o g ( ' S c h e m a + s e e d O K . ' ) ; } f i n a l l y { c l i e n t . r e l e a s e ( ) ; } } m a i n ( ) . t h e n ( ( ) = > p r o c e s s . e x i t ( 0 ) ) . c a t c h ( ( e ) = > { c o n s o l e . e r r o r ( e ) ; p r o c e s s . e x i t ( 1 ) ; } ) ; 
+import pool from './db.js';
+
+async function main() {
+  const client = await pool.connect();
+  try {
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL,
+        email TEXT UNIQUE NOT NULL,
+        password_hash TEXT NOT NULL,
+        role TEXT NOT NULL DEFAULT 'client',
+        phone TEXT,
+        segment TEXT,
+        company TEXT,
+        created_at TIMESTAMPTZ DEFAULT now()
+      );
+
+      CREATE TABLE IF NOT EXISTS leads (
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        phone TEXT,
+        segment TEXT,
+        service TEXT,
+        message TEXT,
+        status TEXT NOT NULL DEFAULT 'new',
+        created_at TIMESTAMPTZ DEFAULT now()
+      );
+
+      CREATE TABLE IF NOT EXISTS services (
+        id SERIAL PRIMARY KEY,
+        key TEXT UNIQUE NOT NULL,
+        title TEXT NOT NULL,
+        description TEXT,
+        active BOOLEAN DEFAULT TRUE
+      );
+
+      CREATE TABLE IF NOT EXISTS orders (
+        id SERIAL PRIMARY KEY,
+        code TEXT UNIQUE NOT NULL,
+        user_id INTEGER NOT NULL REFERENCES users(id),
+        service_id INTEGER REFERENCES services(id),
+        package_name TEXT,
+        status TEXT NOT NULL DEFAULT 'menunggu_pembayaran',
+        priority TEXT DEFAULT 'normal',
+        total NUMERIC,
+        paid NUMERIC DEFAULT 0,
+        brief TEXT,
+        assigned_to INTEGER REFERENCES users(id),
+        due_date DATE,
+        created_at TIMESTAMPTZ DEFAULT now(),
+        updated_at TIMESTAMPTZ DEFAULT now()
+      );
+
+      CREATE TABLE IF NOT EXISTS order_events (
+        id SERIAL PRIMARY KEY,
+        order_id INTEGER NOT NULL REFERENCES orders(id),
+        status TEXT NOT NULL,
+        note TEXT,
+        actor TEXT,
+        created_at TIMESTAMPTZ DEFAULT now()
+      );
+
+      CREATE TABLE IF NOT EXISTS payments (
+        id SERIAL PRIMARY KEY,
+        order_id INTEGER NOT NULL REFERENCES orders(id),
+        method TEXT,
+        amount NUMERIC,
+        status TEXT DEFAULT 'pending',
+        reference TEXT,
+        created_at TIMESTAMPTZ DEFAULT now()
+      );
+
+      CREATE TABLE IF NOT EXISTS files (
+        id SERIAL PRIMARY KEY,
+        order_id INTEGER NOT NULL REFERENCES orders(id),
+        user_id INTEGER REFERENCES users(id),
+        kind TEXT DEFAULT 'upload',
+        filename TEXT NOT NULL,
+        stored_path TEXT NOT NULL,
+        size INTEGER,
+        version INTEGER DEFAULT 1,
+        created_at TIMESTAMPTZ DEFAULT now()
+      );
+
+      CREATE TABLE IF NOT EXISTS messages (
+        id SERIAL PRIMARY KEY,
+        order_id INTEGER NOT NULL REFERENCES orders(id),
+        sender_id INTEGER REFERENCES users(id),
+        body TEXT NOT NULL,
+        attachment_id INTEGER REFERENCES files(id),
+        created_at TIMESTAMPTZ DEFAULT now()
+      );
+
+      CREATE TABLE IF NOT EXISTS bookings (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id),
+        name TEXT,
+        email TEXT,
+        slot TEXT,
+        duration INTEGER DEFAULT 30,
+        method TEXT DEFAULT 'zoom',
+        status TEXT DEFAULT 'pending',
+        created_at TIMESTAMPTZ DEFAULT now()
+      );
+    `);
+
+    // Seed services
+    const svc = [
+      ['olah-data', 'Olah Data & Analisis Statistik'],
+      ['desain-penelitian', 'Desain Penelitian & Survei'],
+      ['pendampingan', 'Pendampingan Skripsi & Jurnal'],
+      ['data-science', 'Data Science & BI'],
+      ['pelatihan', 'Pelatihan & Workshop'],
+      ['custom', 'Penawaran Custom']
+    ];
+    for (const [k, t] of svc) {
+      await client.query(
+        'INSERT INTO services (key, title) VALUES ($1, $2) ON CONFLICT (key) DO NOTHING',
+        [k, t]
+      );
+    }
+
+    console.log('Schema + seed OK.');
+  } finally {
+    client.release();
+  }
+}
+
+main().then(() => process.exit(0)).catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
