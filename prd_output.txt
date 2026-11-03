@@ -1,0 +1,265 @@
+PRD: Website & Portal Klien Konsultasi Statistik
+Versi: 1.0 (Draft) · Tanggal: 2 November 2026 · Status: Menunggu review
+Catatan: nama perusahaan ditulis sebagai [Nama Perusahaan]. Logo sudah tersedia dan akan menjadi acuan identitas visual.
+1. Ringkasan
+[Nama Perusahaan] adalah perusahaan konsultasi statistik yang melayani mahasiswa dan akademisi, bisnis dan korporasi, serta pemerintah dan lembaga riset. Website ini berfungsi sebagai:
+Etalase profesional yang membangun kredibilitas dan SEO.
+Mesin leads melalui form, WhatsApp, dan booking konsultasi.
+Platform transaksi untuk memesan layanan dan membayar online.
+Portal klien untuk upload data, memantau progres, dan menerima hasil.
+2. Tujuan dan Metrik Sukses
+3. Target Pengguna
+3.1 Segmen pelanggan
+3.2 Peran pengguna sistem
+Pengunjung: melihat informasi, membaca artikel, mengajukan konsultasi.
+Klien: memiliki akun, membuat order, mengunggah data, melacak progres, membayar, mengunduh hasil.
+Staf admin: mengelola order, jadwal, pembayaran, konten.
+Statistisi/konsultan: mengerjakan order, memperbarui progres, mengunggah hasil, berkomunikasi dengan klien.
+Super admin: mengelola pengguna, peran, harga, dan pengaturan sistem.
+4. Ruang Lingkup
+4.1 Termasuk (In Scope)
+Website publik responsif (mobile, tablet, desktop) dalam Bahasa Indonesia; struktur disiapkan untuk Bahasa Inggris.
+Katalog layanan dan paket harga.
+Form konsultasi, integrasi WhatsApp, dan booking jadwal online.
+Order layanan, pembayaran online, dan invoice.
+Portal klien: upload data, tracking status, chat/komentar, unduh hasil.
+Dashboard admin dan statistisi.
+Blog/resource center dengan CMS.
+Notifikasi email dan WhatsApp.
+SEO dasar dan analitik.
+4.2 Di luar lingkup (Out of Scope, fase ini)
+Aplikasi mobile native.
+Marketplace multi-vendor untuk statistisi eksternal.
+Platform e-learning/LMS penuh (pelatihan hanya sebagai katalog dan pendaftaran).
+Tools analisis statistik interaktif di dalam website.
+5. Struktur Halaman (Sitemap)
+Publik
+Beranda
+Tentang Kami (profil, visi misi, tim dan kredensial)
+Layanan (halaman indeks dan halaman detail per layanan)
+Olah data dan analisis statistik
+Desain penelitian dan survei
+Pendampingan skripsi, tesis, disertasi, dan publikasi jurnal
+Data science dan business intelligence
+Pelatihan dan workshop
+Solusi per segmen (Mahasiswa/Akademisi, Bisnis, Pemerintah/Lembaga Riset)
+Paket dan Harga
+Portofolio dan Studi Kasus
+Klien dan Testimoni
+Blog dan Resource (artikel, template, panduan)
+FAQ
+Kontak dan Konsultasi (form, WhatsApp, booking, peta)
+Kebijakan Privasi, Syarat dan Ketentuan, Kebijakan Kerahasiaan Data
+Terautentikasi
+Masuk / Daftar / Lupa kata sandi
+Portal Klien: Dashboard, Order Saya, Detail Order, Pembayaran dan Invoice, Berkas, Profil
+Panel Admin/Statistisi: Dashboard, Manajemen Order, Jadwal, Klien, Pembayaran, Konten, Pengaturan
+6. Kebutuhan Fungsional
+Prioritas: P0 wajib rilis awal, P1 penting, P2 nanti.
+6.1 Website publik
+6.2 Konsultasi dan booking
+6.3 Order dan pembayaran
+6.4 Portal klien
+6.5 Dashboard admin dan statistisi
+6.6 Blog dan CMS
+6.7 Notifikasi
+Email transaksional: verifikasi, konfirmasi order, pembayaran diterima, perubahan status, hasil siap.
+WhatsApp notifikasi untuk perubahan status penting dan pengingat jadwal (via WhatsApp Business API) (P1).
+Notifikasi dalam portal (P1).
+7. Alur Pengguna Utama
+7.1 Pengunjung hingga order
+Pengunjung masuk dari pencarian atau media sosial, membaca layanan.
+Memilih Pesan Sekarang (paket tetap) atau Konsultasi/Minta Penawaran (kasus kompleks).
+Membuat akun, mengisi brief, dan mengunggah data awal.
+Membayar (lunas atau DP).
+Order masuk ke dashboard admin dan ditugaskan ke statistisi.
+7.2 Siklus order
+Menunggu Pembayaran → Menunggu Data → Verifikasi Data → Dalam Pengerjaan → Review Internal → Hasil Siap → (Revisi) → Selesai
+Setiap perubahan status memicu notifikasi ke klien dan tercatat di timeline.
+7.3 Alur korporasi dan pemerintah
+Minta Penawaran → admin menyusun proposal dan penawaran → negosiasi → persetujuan di portal atau unggah dokumen kontrak → invoice (termin) → pengerjaan → serah terima hasil.
+8. Kebutuhan Non-Fungsional
+8.1 Keamanan dan privasi data
+Karena klien menyerahkan data penelitian dan data bisnis, aspek ini krusial:
+HTTPS di seluruh situs; enkripsi data saat transit dan saat tersimpan (at rest).
+Akses berkas berbasis peran; tautan unduhan bertanda waktu (signed URL) dan kedaluwarsa.
+Autentikasi aman: hash kata sandi, pembatasan percobaan login, opsi 2FA untuk admin dan statistisi (wajib untuk admin).
+Kepatuhan terhadap UU Pelindungan Data Pribadi (UU PDP): persetujuan eksplisit, kebijakan privasi, hak penghapusan data.
+Opsi NDA/perjanjian kerahasiaan untuk klien korporasi dan pemerintah.
+Kebijakan retensi berkas (misalnya dihapus otomatis setelah periode tertentu).
+Cadangan (backup) harian dan rencana pemulihan.
+Audit trail untuk akses berkas sensitif.
+8.2 Performa
+Largest Contentful Paint < 2,5 detik pada koneksi 4G untuk halaman publik.
+Uptime ≥ 99,5%.
+Upload berkas besar dengan resume (unggah bertahap) dan indikator progres.
+8.3 SEO dan analitik
+URL ramah SEO, sitemap XML, meta dan Open Graph, schema markup (Organization, Service, FAQ, Article).
+Google Analytics 4, Search Console, dan pelacakan konversi (form, booking, order, klik WhatsApp).
+8.4 Aksesibilitas dan kompatibilitas
+Responsif; prioritas pengalaman mobile.
+Mengikuti WCAG 2.1 level AA (kontras, navigasi keyboard, teks alternatif).
+Mendukung dua versi terakhir Chrome, Safari, Firefox, dan Edge.
+8.5 Skalabilitas dan pemeliharaan
+Arsitektur modular agar layanan, bahasa, dan metode pembayaran mudah ditambah.
+Lingkungan staging dan produksi terpisah.
+9. Desain dan Brand
+Logo: sudah tersedia; perlu diserahkan dalam format vektor (SVG/AI) dan PNG transparan, beserta varian terang dan gelap.
+Perlu ditetapkan: palet warna turunan logo, tipografi, gaya ikon, dan gaya foto/ilustrasi (disarankan visualisasi data yang bersih, kesan tepercaya dan profesional).
+Komponen desain (design system): tombol, form, kartu layanan, tabel, status badge order, timeline progres.
+Nada bahasa: profesional namun mudah dipahami; hindari jargon berlebihan di halaman untuk mahasiswa.
+10. Rekomendasi Teknis (Usulan, dapat disesuaikan)
+Keputusan akhir teknologi mengikuti kapasitas tim pengembang dan anggaran.
+11. Integrasi Pihak Ketiga
+Payment gateway (Midtrans/Xendit)
+Google Calendar dan Google Meet/Zoom
+WhatsApp Business API
+Layanan email transaksional
+Google Analytics 4, Meta Pixel (opsional)
+Pemindai malware untuk berkas unggahan
+12. Rencana Rilis (Roadmap)
+Total perkiraan rilis penuh: sekitar 5-6 bulan, tergantung ukuran tim dan kecepatan penyediaan konten.
+13. Risiko dan Mitigasi
+14. Asumsi dan Pertanyaan Terbuka
+Hal-hal berikut perlu dikonfirmasi sebelum desain dan pengembangan:
+Nama perusahaan, domain, dan tagline resmi.
+Daftar layanan final beserta struktur harga (paket tetap vs custom) per segmen.
+Kebijakan revisi, refund, dan pembatalan.
+Apakah konsultasi awal gratis atau berbayar, dan durasinya?
+Jumlah statistisi dan kapasitas order bersamaan.
+Batas ukuran berkas dan masa retensi data.
+Kebutuhan bahasa Inggris pada rilis awal atau nanti.
+Anggaran dan tim pengembang (internal, freelance, atau agensi).
+Ketersediaan portofolio dan testimoni yang boleh dipublikasikan.
+Kebutuhan legal: NDA standar, kontrak, dan faktur pajak.
+15. Kriteria Penerimaan Rilis Awal
+Semua fitur P0 berfungsi dan lolos pengujian.
+Uji keamanan dasar (OWASP Top 10) tanpa temuan kritis.
+Skor Lighthouse mobile ≥ 85 untuk performa dan ≥ 90 untuk SEO dan aksesibilitas.
+Alur lengkap teruji: pengunjung, order, bayar, upload data, tracking, unduh hasil.
+Kebijakan privasi, syarat dan ketentuan sudah dipublikasikan.
+
+
+
+
+INFORMASI TAMBAHAN
+A. Identitas Perusahaan
+- *Nama:* Lumora
+- *Jargon:* *“Illuminate Data, Empower Decisions.”*
+- *Bidang:* Konsultan statistika dan analitik data
+- *Visi:* Menjadi mitra konsultan statistika yang terpercaya dan inovatif dalam mengubah data menjadi wawasan yang bernilai untuk mendukung pengambilan keputusan yang lebih baik.
+- *Misi:*
+  1. Menyediakan analisis statistika yang akurat, objektif, dan dapat dipertanggungjawabkan.
+  2. Memberikan solusi analisis data yang sesuai dengan kebutuhan dan permasalahan klien.
+  3. Menyampaikan hasil analisis secara jelas agar mudah dipahami dan digunakan dalam pengambilan keputusan.
+  4. Menjaga kerahasiaan data dan menerapkan etika profesional dalam setiap proses konsultasi.
+- *Nilai inti (Core Values):* Trusted, Accurate, Open, Together.
+B. Asal Usul dan Logo
+- *Asal usul nama:* Lumora merupakan nama kreasi yang terinspirasi dari kata Latin *lumen*, yang berarti cahaya. Nama ini menggambarkan peran Lumora dalam membantu klien menemukan kejelasan melalui data. Data yang awalnya hanya berupa angka diolah menjadi informasi dan wawasan yang dapat digunakan sebagai dasar pengambilan keputusan.
+- *Logo:* Menggabungkan huruf “L” sebagai identitas Lumora, grafik batang yang melambangkan data dan analisis statistik, panah ke atas yang menunjukkan perkembangan, serta simbol bintang yang merepresentasikan wawasan baru (*insight*). Keseluruhan elemen menggambarkan proses mengubah data menjadi keputusan yang lebih baik.
+- *Biru navy (Navy Blue):* Melambangkan kepercayaan, profesionalisme, kestabilan, dan ketegasan dalam memberikan layanan konsultasi.
+- *Lavender:* Melambangkan kreativitas, inovasi, dan keterbukaan terhadap perspektif baru dalam menyelesaikan permasalahan klien.
+- *Abu-abu lembut (*Soft Gray):* Melambangkan objektivitas, keseimbangan, dan ketelitian dalam proses analisis.
+- *Simbol grafik batang:* Menggambarkan data kuantitatif yang menjadi dasar dalam proses analisis statistika.
+- *Panah ke atas:* Melambangkan kemajuan dan peningkatan kualitas keputusan melalui pemanfaatan data.
+
+- *Simbol bintang atau cahaya:* Melambangkan *insight* atau wawasan baru yang diperoleh setelah data dianalisis dengan metode yang tepat.
+- *Makna keseluruhan logo:* Logo Lumora mencerminkan komitmen perusahaan untuk membantu klien menemukan makna di balik data, memahami permasalahan secara lebih jelas, dan mengambil keputusan berdasarkan hasil analisis yang tepat.
+=== TABLES ===
+--- Table 1 ---
+Tujuan | Metrik | Target (6 bulan setelah rilis)
+Membangun kredibilitas | Waktu rata-rata di halaman, bounce rate | Bounce rate < 55%
+Menarik leads | Jumlah form/booking/klik WhatsApp per bulan | Ditentukan bersama tim (baseline setelah 1 bulan)
+Meningkatkan konversi | Rasio pengunjung ke permintaan konsultasi | ≥ 3%
+Efisiensi operasional | Persentase order yang diproses lewat portal | ≥ 70%
+Visibilitas organik | Trafik dari mesin pencari | Naik bertahap tiap kuartal
+--- Table 2 ---
+Segmen | Kebutuhan utama | Kebiasaan | Hal yang menentukan keputusan
+Mahasiswa dan akademisi | Olah data skripsi/tesis/disertasi, uji statistik, pendampingan jurnal | Mobile-first, aktif di WhatsApp, sensitif harga | Harga jelas, respons cepat, garansi revisi
+Bisnis dan korporasi | Analisis data bisnis, survei pasar, dashboard, forecasting | Butuh proposal, invoice, kontrak | Portofolio, kredensial tim, kerahasiaan data
+Pemerintah dan lembaga riset | Desain survei, sampling, evaluasi program, pelatihan | Proses pengadaan formal, dokumen resmi | Legalitas, pengalaman proyek, dokumen penawaran
+--- Table 3 ---
+ID | Kebutuhan | Prioritas
+WEB-01 | Beranda dengan value proposition, CTA konsultasi, ringkasan layanan, testimoni, logo klien | P0
+WEB-02 | Halaman layanan dengan deskripsi, alat yang digunakan (SPSS, R, Python, SmartPLS, dll.), alur kerja, dan CTA | P0
+WEB-03 | Halaman solusi per segmen dengan pesan dan CTA berbeda | P1
+WEB-04 | Halaman paket dan harga; untuk segmen korporasi dan pemerintah tersedia tombol Minta Penawaran | P0
+WEB-05 | Portofolio dan studi kasus (data anonim, tanpa membuka informasi rahasia klien) | P1
+WEB-06 | Profil tim dengan foto, bidang keahlian, dan kredensial | P1
+WEB-07 | FAQ dengan pencarian dan kategori | P1
+WEB-08 | Floating button WhatsApp di semua halaman | P0
+WEB-09 | Pemilih bahasa ID/EN | P2
+--- Table 4 ---
+ID | Kebutuhan | Prioritas
+KON-01 | Form konsultasi: nama, email, nomor WhatsApp, segmen, jenis layanan, deskripsi kebutuhan, lampiran opsional | P0
+KON-02 | Booking jadwal konsultasi gratis atau berbayar dengan pilihan slot, durasi, dan metode (Zoom/Google Meet/telepon) | P0
+KON-03 | Sinkronisasi dengan kalender (Google Calendar) untuk mencegah bentrok jadwal | P1
+KON-04 | Email dan WhatsApp konfirmasi, pengingat H-1 dan 1 jam sebelumnya | P0
+KON-05 | Reschedule dan pembatalan oleh klien sesuai kebijakan | P1
+KON-06 | Perlindungan spam (CAPTCHA/rate limit) | P0
+--- Table 5 ---
+ID | Kebutuhan | Prioritas
+ORD-01 | Alur order: pilih layanan/paket, isi brief, unggah data awal, review, bayar | P0
+ORD-02 | Order dengan harga tetap (paket) dan order dengan penawaran khusus (custom quote) | P0
+ORD-03 | Pembuatan penawaran dan invoice oleh admin, disetujui klien lewat portal | P1
+ORD-04 | Pembayaran online: transfer virtual account, e-wallet, QRIS, kartu | P0
+ORD-05 | Skema pembayaran: lunas atau DP dan pelunasan | P1
+ORD-06 | Invoice dan kuitansi PDF otomatis; faktur untuk korporasi dengan NPWP | P1
+ORD-07 | Kode promo dan harga khusus mahasiswa | P2
+ORD-08 | Kebijakan revisi dan refund ditampilkan sebelum pembayaran | P0
+--- Table 6 ---
+ID | Kebutuhan | Prioritas
+POR-01 | Registrasi dan login (email dan kata sandi; opsi login Google) dengan verifikasi email | P0
+POR-02 | Dashboard klien: order aktif, status, tagihan, notifikasi | P0
+POR-03 | Upload data (xlsx, csv, sav, docx, pdf, zip) dengan batas ukuran, validasi tipe berkas, dan pemindaian malware | P0
+POR-04 | Tracking progres per order dengan tahapan: Menunggu Pembayaran, Menunggu Data, Verifikasi Data, Dalam Pengerjaan, Review Internal, Hasil Siap, Revisi, Selesai | P0
+POR-05 | Timeline aktivitas dan perkiraan tanggal selesai | P0
+POR-06 | Komentar/chat per order antara klien dan statistisi, dengan lampiran | P0
+POR-07 | Unduh hasil (laporan, output, syntax/script) dengan versi berkas | P0
+POR-08 | Permintaan revisi dengan batas sesuai paket | P1
+POR-09 | Rating dan ulasan setelah order selesai | P2
+POR-10 | Akun organisasi: beberapa pengguna dalam satu perusahaan/instansi | P2
+POR-11 | Penghapusan data klien sesuai masa retensi atas permintaan | P1
+--- Table 7 ---
+ID | Kebutuhan | Prioritas
+ADM-01 | Daftar order dengan filter status, layanan, segmen, tanggal, penanggung jawab | P0
+ADM-02 | Penugasan order ke statistisi dan pembaruan status/progres | P0
+ADM-03 | Manajemen leads dari form dan booking, dengan status tindak lanjut | P0
+ADM-04 | Manajemen layanan, paket, dan harga | P0
+ADM-05 | Manajemen jadwal dan ketersediaan konsultan | P1
+ADM-06 | Manajemen pembayaran, invoice, dan rekonsiliasi | P1
+ADM-07 | Manajemen peran dan hak akses (RBAC) | P0
+ADM-08 | Laporan: jumlah order, pendapatan, konversi, waktu pengerjaan, kepuasan | P1
+ADM-09 | Log aktivitas (audit trail) untuk akses dan unduhan berkas klien | P1
+--- Table 8 ---
+ID | Kebutuhan | Prioritas
+CMS-01 | Editor artikel dengan kategori, tag, gambar, dan metadata SEO | P0
+CMS-02 | Penjadwalan publikasi dan draft | P1
+CMS-03 | Unduhan resource (template, cheat sheet) dengan opsi tukar email (lead magnet) | P1
+CMS-04 | Newsletter signup | P2
+--- Table 9 ---
+Area | Opsi yang disarankan
+Front-end | Next.js/React atau Nuxt/Vue (SSR untuk SEO)
+Back-end | Node.js (NestJS) atau Laravel
+Database | PostgreSQL
+Penyimpanan berkas | Object storage terenkripsi (S3-compatible) dengan signed URL
+CMS blog | Headless CMS (Strapi/Directus) atau modul CMS bawaan
+Pembayaran | Midtrans atau Xendit
+Booking | Modul sendiri dengan Google Calendar API, atau Cal.com
+Notifikasi | Email (SendGrid/SES), WhatsApp Business API
+Hosting | Cloud (AWS/GCP) atau VPS terkelola dengan CDN, lokasi region Asia
+--- Table 10 ---
+Fase | Cakupan | Perkiraan durasi
+Fase 0: Persiapan | Finalisasi PRD, kumpulkan konten (layanan, harga, tim, portofolio), aset brand, riset kompetitor | 2 minggu
+Fase 1: Website dan Leads | Website publik, CMS blog, form konsultasi, WhatsApp, booking, SEO dasar | 6-8 minggu
+Fase 2: Order dan Pembayaran | Akun klien, alur order, pembayaran online, invoice, dashboard admin dasar | 6-8 minggu
+Fase 3: Portal Klien Penuh | Upload data, tracking progres, chat per order, unduh hasil, revisi, notifikasi WhatsApp | 6-8 minggu
+Fase 4: Optimasi | Laporan, akun organisasi, bahasa Inggris, ulasan, kode promo | Berkelanjutan
+--- Table 11 ---
+Risiko | Dampak | Mitigasi
+Kebocoran data klien | Reputasi dan hukum | Enkripsi, RBAC, audit trail, NDA, uji penetrasi sebelum rilis
+Konten terlambat disiapkan | Jadwal mundur | Template konten dan tenggat per fase
+Alur harga kompleks (paket vs custom) | Konversi turun, kebingungan | Pisahkan jalur "Pesan Sekarang" dan "Minta Penawaran"
+Beban admin manual tinggi | Efisiensi rendah | Otomatisasi status, notifikasi, dan invoice
+Pesan yang berbeda untuk tiga segmen | Website terasa generik | Halaman solusi per segmen dan CTA khusus
+Spam form | Leads tidak berkualitas | CAPTCHA, rate limit, validasi

@@ -1,0 +1,20 @@
+node_modules/
+server/node_modules/
+.env
+.env.local
+uploads/*
+!uploads/.gitkeep
+*.log
+lumora.db
+lumora.db-shm
+lumora.db-wal
+dist/
+
+# file lokal (jangan di-deploy)
+JALANKAN.bat
+DEPLOY.bat
+*.png
+DEPLOY-NEON-Railway.txt
+
+# folder kerja dev
+.dev/

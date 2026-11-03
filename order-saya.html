@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Saya â€” Lumora</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:wght@400;430;450;480;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="site-nav" style="position:relative;">
+    <a class="brand brand--logo" href="/"><img src="/logo.svg" alt="Lumora - Statistics & Data Consulting" width="180" height="48"></a>
+  </header>
+
+  <div class="dash-layout">
+    <aside class="dash-side">
+      <p class="side-label">Portal</p>
+      <a href="/portal.html">Dashboard</a>
+      <a href="/order-saya.html" class="active">Order Saya</a>
+      <a href="/profil.html">Profil</a>
+      <p class="side-label">Lainnya</p>
+      <a href="/" target="_blank">Kembali ke Situs</a>
+      <a href="#" data-logout>Keluar</a>
+    </aside>
+    <main class="dash-main" id="main"></main>
+  </div>
+
+  <script type="module">
+    import { requireAuth, api, fmtRp, fmtDate, statusBadge, bindLogout } from '/portal-lib.js';
+    const user = requireAuth();
+    if (!user) { /* redirected */ }
+    bindLogout();
+
+    const main = document.getElementById('main');
+    main.innerHTML = '<p class="dash-sub">Memuatâ€¦</p>';
+
+    const { orders } = await api('/orders');
+    if (!orders.length) {
+      main.innerHTML = `<h1 class="dash-title">Order Saya</h1><p class="dash-sub">Belum ada order. <a href="/kontak.html">Buat order pertama â†’</a></p>`;
+      document.querySelector('aside').style.display = 'block';
+      return;
+    }
+
+    main.innerHTML = `
+      <h1 class="dash-title">Order Saya</h1>
+      <p class="dash-sub">${orders.length} order ditemukan.</p>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Kode</th><th>Layanan</th><th>Status</th><th>Total</th><th class="data-table-hide-sm">Dibuat</th><th></th></tr></thead>
+          <tbody>
+            ${orders.map(o => `
+              <tr>
+                <td><strong>${o.code}</strong></td>
+                <td>${o.service_title || o.package_name || 'â€”'}</td>
+                <td>${statusBadge(o.status)}</td>
+                <td>${fmtRp(o.total)}</td>
+                <td class="data-table-hide-sm">${fmtDate(o.created_at)}</td>
+                <td><a class="text-link" style="padding:0;" href="/detail-order.html?id=${o.id}">Buka â†’</a></td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:32px;">
+        <a class="btn btn-primary" href="/kontak.html">Order Baru</a>
+      </div>
+    `;
+  </script>
+</body>
+</html>

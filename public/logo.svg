@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 140" fill="none">
+  <defs>
+    <linearGradient id="lgrad" x1="0" y1="120" x2="0" y2="0">
+      <stop offset="0%" stop-color="#1a1c3a"/>
+      <stop offset="100%" stop-color="#8a8dd8"/>
+    </linearGradient>
+    <linearGradient id="bargrad" x1="0" y1="100" x2="0" y2="20">
+      <stop offset="0%" stop-color="#2b2d5e"/>
+      <stop offset="100%" stop-color="#a2a5e0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- L navy -->
+  <path d="M18 20 h20 v62 h40 v18 H18 Z" fill="#1a1c3a"/>
+
+  <!-- Batang grafik (3, naik) -->
+  <g fill="url(#bargrad)">
+    <rect x="64" y="70" width="12" height="26" rx="2"/>
+    <rect x="82" y="56" width="12" height="40" rx="2"/>
+    <rect x="100" y="42" width="12" height="54" rx="2"/>
+  </g>
+
+  <!-- Panah naik -->
+  <path d="M58 92 C 80 80, 100 62, 122 34" stroke="url(#lgrad)" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <path d="M122 34 l-13 2 l6 12 Z" fill="#8a8dd8"/>
+
+  <!-- Bintang / sparkles -->
+  <g fill="#8a8dd8">
+    <path d="M96 22 l4 8 l8 4 l-8 4 l-4 8 l-4 -8 l-8 -4 l8 -4 Z" opacity="0.9"/>
+    <path d="M118 12 l2.5 5 l5 2.5 l-5 2.5 l-2.5 5 l-2.5 -5 l-5 -2.5 l5 -2.5 Z" opacity="0.7"/>
+  </g>
+
+  <!-- LUMORA -->
+  <text x="150" y="78" font-family="'Playfair Display', Georgia, serif" font-size="62" font-weight="500" fill="#1a1c3a" letter-spacing="2">LUMORA</text>
+
+  <!-- Subtitle -->
+  <text x="153" y="106" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#7d80c8" letter-spacing="4">STATISTICS &amp; DATA CONSULTING</text>
+</svg>

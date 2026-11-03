@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detail Order â€” Lumora</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:wght@400;430;450;480;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="site-nav" style="position:relative;">
+    <a class="brand brand--logo" href="/"><img src="/logo.svg" alt="Lumora - Statistics & Data Consulting" width="180" height="48"></a>
+  </header>
+
+  <div class="dash-layout">
+    <aside class="dash-side">
+      <p class="side-label">Portal</p>
+      <a href="/portal.html">Dashboard</a>
+      <a href="/order-saya.html" class="active">Order Saya</a>
+      <a href="/profil.html">Profil</a>
+      <p class="side-label">Lainnya</p>
+      <a href="/" target="_blank">Kembali ke Situs</a>
+      <a href="#" data-logout>Keluar</a>
+    </aside>
+    <main class="dash-main" id="main"></main>
+  </div>
+
+  <script type="module">
+    import { requireAuth, api, fmtRp, fmtDate, statusBadge, bindLogout } from '/portal-lib.js';
+    const user = requireAuth();
+    if (!user) { /* redirected */ }
+    bindLogout();
+
+    const main = document.getElementById('main');
+    const id = new URLSearchParams(location.search).get('id');
+    main.innerHTML = '<p class="dash-sub">Memuatâ€¦</p>';
+
+    if (!id) { main.innerHTML = '<p class="form-status err">ID order tidak ditemukan.</p>'; }
+    else {
+      try {
+        const j = await api(`/orders/${id}`);
+        const { order, events, payments } = j;
+        const files = (await api(`/orders/${id}/files`)).files;
+        const msgs = (await api(`/orders/${id}/messages`)).messages;
+
+        const unread = Math.max(0, (order.total||0) - (order.paid||0));
+        const isClient = user.role === 'client';
+
+        main.innerHTML = `
+          <a class="text-link" style="padding:0;margin-bottom:16px;" href="/order-saya.html">â† Kembali ke daftar order</a>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;">
+            <div>
+              <h1 class="dash-title">${order.code}</h1>
+              <p class="dash-sub">${order.service_title || order.package_name || 'Order'} Â· Dibuat ${fmtDate(order.created_at)}</p>
+            </div>
+            ${statusBadge(order.status)}
+          </div>
+
+          <div class="stat-row">
+            <div class="stat-box"><div class="stat-num">${fmtRp(order.total)}</div><div class="stat-label">Total</div></div>
+            <div class="stat-box"><div class="stat-num">${fmtRp(order.paid)}</div><div class="stat-label">Sudah dibayar</div></div>
+            <div class="stat-box"><div class="stat-num">${fmtRp(unread)}</div><div class="stat-label">Sisa tagihan</div></div>
+            ${order.due_date ? `<div class="stat-box"><div class="stat-num" style="font-size:22px;">${fmtDate(order.due_date)}</div><div class="stat-label">Deadline</div></div>` : ''}
+          </div>
+
+          ${order.brief ? `<p style="font-size:15px;color:var(--muted);margin-bottom:32px;"><strong style="color:var(--ink);">Brief:</strong> ${order.brief}</p>` : ''}
+
+          ${unread > 0 && isClient ? `
+            <div class="card" style="margin-bottom:32px;">
+              <p class="card-tag">Pembayaran</p>
+              <h3 style="margin-bottom:12px;">Lunasi tagihan ${fmtRp(unread)}</h3>
+              <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                <button class="btn btn-primary btn-sm" data-pay="va">Virtual Account</button>
+                <button class="btn btn-ghost btn-sm" data-pay="ewallet">E-Wallet</button>
+                <button class="btn btn-ghost btn-sm" data-pay="qris">QRIS</button>
+              </div>
+            </div>` : ''}
+
+          <h2 class="h2" style="font-size:24px;margin:32px 0 16px;">Timeline</h2>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <tbody>
+                ${events.map(e => `<tr><td style="width:120px;">${statusBadge(e.status)}</td><td>${e.note || 'â€”'}</td><td style="width:120px;text-align:right;color:var(--ash);font-size:13px;">${fmtDate(e.created_at)}</td></tr>`).join('') || '<tr><td>Belum ada aktivitas.</td></tr>'}
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="h2" style="font-size:24px;margin:32px 0 16px;">Berkas</h2>
+          <div class="card" style="padding:12px 24px;">
+            ${files.length ? files.map(f => `
+              <div class="file-row">
+                <div class="file-ico">${(f.filename.split('.').pop()||'').toUpperCase().slice(0,4)}</div>
+                <div class="file-name">${f.filename}</div>
+                <div class="file-meta">${Math.round(f.size/1024)} KB Â· v${f.version}</div>
+                <a class="btn btn-ghost btn-sm" href="/api/orders/${id}/files/${f.id}" download>Unduh</a>
+              </div>`).join('') : '<p class="dash-sub" style="margin:8px 0;">Belum ada berkas.</p>'}
+            ${isClient ? `
+              <form id="uploadForm" style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;">
+                <input type="file" name="files" multiple accept=".xlsx,.csv,.sav,.docx,.pdf,.zip">
+                <button class="btn btn-primary btn-sm" type="submit">Unggah data</button>
+              </form>` : ''}
+          </div>
+
+          ${payments.length ? `
+            <h2 class="h2" style="font-size:24px;margin:32px 0 16px;">Riwayat pembayaran</h2>
+            <div class="data-table-wrap">
+              <table class="data-table">
+                <thead><tr><th>Metode</th><th>Jumlah</th><th>Status</th><th>Referensi</th><th class="data-table-hide-sm">Tanggal</th></tr></thead>
+                <tbody>
+                  ${payments.map(p => `<tr><td>${p.method}</td><td>${fmtRp(p.amount)}</td><td>${p.status}</td><td class="data-table-hide-sm">${p.reference}</td><td class="data-table-hide-sm">${fmtDate(p.created_at)}</td></tr>`).join('')}
+                </tbody>
+              </table>
+            </div>` : ''}
+
+          <h2 class="h2" style="font-size:24px;margin:32px 0 16px;">Percakapan</h2>
+          <div class="chat-box" id="chatBox">
+            ${msgs.map(m => `
+              <div class="chat-item ${m.sender_role === user.role || (user.role==='admin' && false) ? 'me' : ''}">
+                <div>
+                  <div class="chat-sender">${m.sender_name || 'Sistem'} Â· ${fmtDate(m.created_at)}</div>
+                  <div class="chat-bubble">${m.body ? escapeHtml(m.body) : '<em>[lampiran]</em>'}</div>
+                </div>
+              </div>`).join('')}
+          </div>
+          <form id="chatForm" class="chat-input-row">
+            <input type="text" name="body" placeholder="Tulis pesanâ€¦" required>
+            <button class="btn btn-primary btn-sm" type="submit">Kirim</button>
+          </form>
+        `;
+
+        function escapeHtml(s){ return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+        // Upload
+        const up = document.getElementById('uploadForm');
+        if (up) up.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const fd = new FormData();
+          const files = up.files.files;
+          for (const f of files) fd.append('files', f);
+          const r = await api(`/orders/${id}/files`, { method: 'POST', files: fd });
+          location.reload();
+        });
+
+        // Chat
+        document.getElementById('chatForm').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const body = e.target.body.value.trim();
+          if (!body) return;
+          await api(`/orders/${id}/messages`, { method: 'POST', body: { body } });
+          e.target.body.value = '';
+          location.reload();
+        });
+
+        // Bayar
+        document.querySelectorAll('[data-pay]').forEach(b => b.addEventListener('click', async () => {
+          await api(`/orders/${id}/payments`, { method: 'POST', body: { method: b.dataset.pay, amount: unread } });
+          location.reload();
+        }));
+      } catch (e) {
+        main.innerHTML = `<p class="form-status err">Gagal memuat order: ${e.message}. <a href="/order-saya.html">Kembali</a></p>`;
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="fnavy" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#1a1c3a"/>
+      <stop offset="100%" stop-color="#8a8dd8"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#1a1c3a"/>
+  <path d="M13 13 h8 v26 h15 v6 H13 Z" fill="url(#fnavy)" opacity="0.9"/>
+  <path d="M13 13 h8 v26 h15 v6 H13 Z" fill="none" stroke="#c3c5ee" stroke-width="1.5"/>
+  <g fill="#c3c5ee">
+    <rect x="42" y="38" width="6" height="14" rx="1.5"/>
+    <rect x="50" y="30" width="6" height="22" rx="1.5"/>
+  </g>
+  <path d="M36 52 C 42 46, 48 36, 54 22" stroke="#e9eaf6" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <path d="M54 22 l-6 1 l3 6 Z" fill="#e9eaf6"/>
+  <path d="M40 10 l2.5 5 l5 2.5 l-5 2.5 l-2.5 5 l-2.5 -5 l-5 -2.5 l5 -2.5 Z" fill="#c3c5ee"/>
+</svg>

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil â€” Lumora</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:wght@400;430;450;480;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="site-nav" style="position:relative;">
+    <a class="brand brand--logo" href="/"><img src="/logo.svg" alt="Lumora - Statistics & Data Consulting" width="180" height="48"></a>
+  </header>
+
+  <div class="dash-layout">
+    <aside class="dash-side">
+      <p class="side-label">Portal</p>
+      <a href="/portal.html">Dashboard</a>
+      <a href="/order-saya.html">Order Saya</a>
+      <a href="/profil.html" class="active">Profil</a>
+      <p class="side-label">Lainnya</p>
+      <a href="/" target="_blank">Kembali ke Situs</a>
+      <a href="#" data-logout>Keluar</a>
+    </aside>
+    <main class="dash-main" id="main"></main>
+  </div>
+
+  <script type="module">
+    import { requireAuth, api, getUser, saveSession, bindLogout } from '/portal-lib.js';
+    const user = requireAuth();
+    if (!user) { /* redirected */ }
+    bindLogout();
+
+    const main = document.getElementById('main');
+    main.innerHTML = `
+      <h1 class="dash-title">Profil</h1>
+      <p class="dash-sub">Data akun dan keamanannya.</p>
+
+      <div class="card" style="margin-bottom:32px;">
+        <p class="card-tag">Akun</p>
+        <form id="profileForm" class="auth-form">
+          <label><span class="field-label">Nama</span><input name="name" value="${escapeAttr(user.name)}" required></label>
+          <label><span class="field-label">Email</span><input name="email" value="${user.email}" disabled></label>
+          <label><span class="field-label">Nomor WhatsApp</span><input name="phone" value="${user.phone||''}" placeholder="08â€¦"></label>
+          <label>
+            <span class="field-label">Segmen</span>
+            <select name="segment">
+              ${['','Mahasiswa / Akademisi','Bisnis / Korporasi','Pemerintah / Lembaga Riset'].map(v => `<option value="${v}" ${user.segment===v?'selected':''}>${v||'Pilih segmen'}</option>`).join('')}
+            </select>
+          </label>
+          <button class="btn btn-primary btn-sm" type="submit">Simpan</button>
+        </form>
+        <p class="form-status" id="pfStatus"></p>
+      </div>
+
+      <div class="card">
+        <p class="card-tag">Keamanan</p>
+        <form id="pwForm" class="auth-form">
+          <label><span class="field-label">Kata sandi baru</span><input type="password" name="new_password" required placeholder="Min. 6 karakter"></label>
+          <button class="btn btn-ghost btn-sm" type="submit">Ganti kata sandi</button>
+        </form>
+        <p class="form-status" id="pwStatus"></p>
+      </div>
+    `;
+
+    function escapeAttr(s){ return (s||'').replace(/"/g,'&quot;'); }
+
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const f = e.target;
+      const st = document.getElementById('pfStatus');
+      try {
+        // ponytail: endpoint update profil belum ada di API; simpan lokal sebagai fallback
+        const upd = { ...getUser(), name: f.name.value, phone: f.phone.value, segment: f.segment.value };
+        saveSession(localStorage.getItem('lumora_token'), upd);
+        st.textContent = 'Profil disimpan.';
+        st.className = 'form-status ok';
+      } catch {
+        st.textContent = 'Gagal menyimpan.';
+        st.className = 'form-status err';
+      }
+    });
+
+    document.getElementById('pwForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const st = document.getElementById('pwStatus');
+      try {
+        await api('/auth/reset-password', { method: 'POST', body: { new_password: e.target.new_password.value } });
+        st.textContent = 'Kata sandi diganti.';
+        st.className = 'form-status ok';
+        e.target.reset();
+      } catch {
+        st.textContent = 'Gagal ganti kata sandi.';
+        st.className = 'form-status err';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masuk — Lumora</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:wght@400;430;450;480;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="auth-body">
+  <a class="brand brand--logo" href="/"><img src="/logo.svg" alt="Lumora" width="180" height="48"></a>
+
+  <main class="auth-wrap">
+    <div class="auth-card">
+      <h1 class="display-sm" style="font-size:32px;">Masuk</h1>
+      <p class="auth-sub">Kelola order dan berkala update di portal klien.</p>
+      <form id="loginForm" class="auth-form" novalidate>
+        <label>
+          <span class="field-label">Email</span>
+          <input type="email" name="email" required autocomplete="email" placeholder="nama@instansi.id">
+        </label>
+        <label>
+          <span class="field-label">Kata sandi</span>
+          <input type="password" name="password" required autocomplete="current-password" placeholder="••••••••">
+        </label>
+        <button type="submit" class="btn btn-primary btn-block">Masuk</button>
+        <div class="auth-links">
+          <a href="/lupa-password.html">Lupa kata sandi?</a>
+          <a href="/daftar.html">Daftar akun baru</a>
+        </div>
+        <p class="form-status" id="loginStatus" role="status" aria-live="polite"></p>
+      </form>
+      <div class="auth-demo">
+        <p class="fineprint" style="margin:0;">Akun demo: admin@lumora.id / admin123 · dewi@mail.com / dewi123</p>
+      </div>
+    </div>
+  </main>
+  <script type="module" src="/login.js"></script>
+</body>
+</html>

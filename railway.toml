@@ -1,0 +1,23 @@
+# railway.toml - config deployment Railway
+# Railway install deps otomatis dari server/package.json
+
+[build]
+builder = "NIXPACKS"
+install = "cd server && npm install"
+# Jalankan init-db + seed dulu, baru start server
+start = "cd server && (node init-db.js || true) && (node seed.js || true) && node index.js"
+
+[service]
+# Railway auto-set PORT dari environment. Backend baca process.env.PORT
+# Di index.js: const PORT = process.env.PORT || 3001
+
+[env]
+NODE_VERSION = "20.19.0"
+
+[vars]
+# DATABASE_URL diisi di panel Railway (dari Neon)
+# JWT_SECRET isi juga di panel Railway
+
+[deploy]
+# jangan upload file ini ke repo
+ignore = [".env", "uploads/*", "*.log"]

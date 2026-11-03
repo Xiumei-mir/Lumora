@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Klien â€” Lumora</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:wght@400;430;450;480;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="site-nav" style="position:relative;">
+    <a class="brand brand--logo" href="/"><img src="/logo.svg" alt="Lumora - Statistics & Data Consulting" width="180" height="48"></a>
+    <div id="navUser"></div>
+  </header>
+
+  <div class="dash-layout">
+    <aside class="dash-side" id="side">
+      <a class="brand brand--logo" href="/"><img src="/logo.svg" alt="Lumora" width="180" height="48"></a>
+      <p class="side-label">Portal</p>
+      <a href="/portal.html" data-route="dashboard" class="active">Dashboard</a>
+      <a href="/order-saya.html" data-route="orders">Order Saya</a>
+      <a href="/profil.html" data-route="profil">Profil</a>
+      <p class="side-label">Lainnya</p>
+      <a href="/" target="_blank">Kembali ke Situs</a>
+      <a href="#" data-logout>Keluar</a>
+    </aside>
+
+    <main class="dash-main" id="main"></main>
+  </div>
+
+  <script type="module">
+    import { requireAuth, getToken, getUser, saveSession, logout, api, fmtRp, fmtDate, statusBadge, bindLogout } from '/portal-lib.js';
+
+    // Auth guard
+    const user = requireAuth();
+    if (!user) { /* sudah redirect */ }
+    bindLogout();
+
+    // Tampilkan nama di nav
+    if (user) {
+      document.getElementById('navUser').innerHTML =
+        `<span style="font-size:14px;color:var(--muted);margin-right:12px;">Halo, <strong style="color:var(--ink);">${user.name}</strong></span>
+         <a class="btn btn-ghost btn-sm" href="#" data-logout>Keluar</a>`;
+      bindLogout();
+    }
+
+    // Load dashboard
+    const main = document.getElementById('main');
+    main.innerHTML = '<p class="dash-sub">Memuatâ€¦</p>';
+
+    try {
+      const { orders } = await api('/orders');
+      const active = orders.filter(o => o.status !== 'selesai');
+      const totalUnpaid = active.reduce((s, o) => s + Math.max(0, (o.total||0) - (o.paid||0)), 0);
+
+      main.innerHTML = `
+        <h1 class="dash-title">Dashboard</h1>
+        <p class="dash-sub">Ringkasan order dan tagihan Anda.</p>
+
+        <div class="stat-row">
+          <div class="stat-box"><div class="stat-num">${orders.length}</div><div class="stat-label">Total order</div></div>
+          <div class="stat-box"><div class="stat-num">${active.length}</div><div class="stat-label">Order aktif</div></div>
+          <div class="stat-box"><div class="stat-num">${fmtRp(totalUnpaid)}</div><div class="stat-label">Tagihan terbuka</div></div>
+        </div>
+
+        ${active.length ? `
+          <h2 class="h2" style="font-size:26px;margin-bottom:16px;">Order aktif</h2>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Kode</th><th>Layanan</th><th>Status</th><th class="data-table-hide-sm">Deadline</th><th></th></tr></thead>
+              <tbody>
+                ${active.map(o => `
+                  <tr>
+                    <td><strong>${o.code}</strong></td>
+                    <td>${o.service_title || o.package_name || 'â€”'}</td>
+                    <td>${statusBadge(o.status)}</td>
+                    <td class="data-table-hide-sm">${fmtDate(o.due_date)}</td>
+                    <td><a class="text-link" style="padding:0;" href="/order-saya.html#${o.id}">Detail â†’</a></td>
+                  </tr>`).join('')}
+              </tbody>
+            </table>
+          </div>` : `<p class="dash-sub">Belum ada order. <a href="/kontak.html">Mulai konsultasi â†’</a></p>`}
+      `;
+    } catch (e) {
+      main.innerHTML = `<p class="form-status err">Gagal memuat: ${e.message}. <a href="/login.html">Masuk ulang</a>.</p>`;
+    }
+  </script>
+</body>
+</html>

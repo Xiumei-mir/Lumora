@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumora â€” Statistics & Data Consulting</title>
+  <meta name="description" content="Lumora membantu UMKM, startup, dan bisnis mengubah data berantakan menjadi keputusan strategis. EDA, forecasting, churn, dashboard eksekutif & pelatihan. Konsultasi awal gratis, 100% NDA.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:wght@400;430;450;480;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <p class="topbar-item"><span class="topbar-icon" aria-hidden="true">â›¨</span> 100% NDA â€” Data Anda dijamin rahasia</p>
+      <div class="topbar-right">
+        <span>Respons &lt; 1Ã-24 jam</span>
+        <span class="topbar-lang">ID</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <header class="site-nav" id="top">
+    <a class="brand brand--logo" href="#beranda" aria-label="Lumora â€” Beranda">
+      <img src="/logo.svg" alt="Lumora â€” Statistics &amp; Data Consulting" width="180" height="46">
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Buka menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+    <nav class="site-menu" id="siteMenu" aria-label="Menu utama">
+      <a href="#layanan">Layanan</a>
+      <a href="#metodologi">Metodologi</a>
+      <a href="#nilai">Nilai</a>
+      <a href="#studi-kasus">Studi Kasus</a>
+      <a href="#tentang">Tentang</a>
+      <a href="#kontak" class="btn btn-primary btn-sm">Jadwalkan Konsultasi</a>
+    </nav>
+  </header>
+
+  <main id="beranda">
+
+    <!-- HERO : CAROUSEL + VISUAL -->
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-text">
+          <div class="hero-eyebrow-row">
+            <span class="hero-pill"><span class="hero-pill-icon" aria-hidden="true">âœ¦</span> LUMEN Â· DATA TO INSIGHTS</span>
+            <span class="hero-edition">Edisi 2026 â€” untuk UMKM &amp; Startup</span>
+          </div>
+
+          <!-- carousel slides -->
+          <div id="heroCarousel" class="hero-carousel">
+            <div class="hero-slide hero-slide--active" data-slide="0">
+              <p class="hero-slide-label">01 / UNTUK PEMILIK UMKM</p>
+              <h1 class="display">Mengubah Kompleksitas Data Menjadi <em>Keputusan Strategis</em> yang Tepat.</h1>
+              <p class="lede"><em class="serif-italic">Illuminate Data, Empower Decisions.</em> Punya data penjualan di spreadsheet tapi bingung membacanya? Kami merapikan, menguji, dan menerjemahkannya jadi langkah bisnis yang jelas.</p>
+              <div class="hero-actions">
+                <a href="#kontak" class="btn btn-primary">Mulai Konsultasi Data <span class="btn-arrow" aria-hidden="true">â†’</span></a>
+                <a href="#metodologi" class="btn btn-ghost">Lihat Metodologi</a>
+              </div>
+            </div>
+            <div class="hero-slide" data-slide="1">
+              <p class="hero-slide-label">02 / UNTUK STARTUP BERLANGGANAN</p>
+              <h1 class="display">Turunkan Churn <em>18%</em> dengan Model yang Terbukti, Bukan Feeling.</h1>
+              <p class="lede">Churn prediction + segmentasi pelanggan menunjukkan <strong>siapa yang akan pergi â€” dan kenapa.</strong> Intervensi tepat sasaran dalam 90 hari, terukur secara statistik.</p>
+              <div class="hero-actions">
+                <a href="#studi-kasus" class="btn btn-primary">Lihat Bukti Studi Kasus <span class="btn-arrow" aria-hidden="true">â†’</span></a>
+                <a href="#kontak" class="btn btn-ghost">Diskusikan Churn Anda</a>
+              </div>
+            </div>
+            <div class="hero-slide" data-slide="2">
+              <p class="hero-slide-label">03 / DASHBOARD &amp; PELATIHAN TIM</p>
+              <h1 class="display">Satu <em>Dashboard Eksekutif</em> yang Dibaca Direksi dalam 5 Menit.</h1>
+              <p class="lede">Berhenti tenggelam dalam grafik membingungkan. Kami bangun dashboard interaktif siap presentasi â€” plus melatih tim Anda membacanya dengan percaya diri.</p>
+              <div class="hero-actions">
+                <a href="#kontak" class="btn btn-primary">Minta Contoh Dashboard <span class="btn-arrow" aria-hidden="true">â†’</span></a>
+                <a href="#layanan" class="btn btn-ghost">Jelajahi Layanan</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- carousel controls -->
+          <div class="hero-controls">
+            <button id="heroPrev" class="hero-navbtn" aria-label="Slide sebelumnya"><span aria-hidden="true">â†</span></button>
+            <button id="heroNext" class="hero-navbtn" aria-label="Slide berikutnya"><span aria-hidden="true">â†’</span></button>
+            <div class="hero-dots" role="tablist" aria-label="Pilih pesan hero">
+              <button class="hero-dot hero-dot--active" data-goto="0" aria-label="Slide 1"></button>
+              <button class="hero-dot" data-goto="1" aria-label="Slide 2"></button>
+              <button class="hero-dot" data-goto="2" aria-label="Slide 3"></button>
+            </div>
+            <span id="heroCounter" class="hero-counter">01 / 03</span>
+          </div>
+
+          <!-- trust bar -->
+          <div class="trust-bar">
+            <div class="trust-item"><span class="trust-icon" aria-hidden="true">â›¨</span><div><strong>100% Data Confidentiality</strong><small>Terikat NDA tertulis</small></div></div>
+            <div class="trust-item"><span class="trust-icon" aria-hidden="true">Î£</span><div><strong>Objective Statistical Modeling</strong><small>Diuji hipotesis, bukan asumsi</small></div></div>
+            <div class="trust-item"><span class="trust-icon" aria-hidden="true">â–¤</span><div><strong>Actionable Executive Reports</strong><small>Siap dibawa ke rapat</small></div></div>
+          </div>
+        </div>
+
+        <!-- visual kanan -->
+        <div class="hero-visual" aria-hidden="true">
+          <div class="viz-live">LIVE Â· Forecast Q4 +23%</div>
+          <div class="viz-card viz-card--main">
+            <div class="viz-head">
+              <span class="viz-title">EXECUTIVE DASHBOARD â€” RITEL "ARUNIKA"</span>
+              <span class="viz-dots"><i></i><i></i><i></i></span>
+            </div>
+            <div class="viz-kpis">
+              <div class="kpis"><span class="kpi">94.2%</span><span class="kpi-lbl">Forecast Acc.</span></div>
+              <div class="kpis kpis--up"><span class="kpi">âˆ’18%</span><span class="kpi-lbl">Churn</span></div>
+              <div class="kpis kpis--accent"><span class="kpi">2.4Ã-</span><span class="kpi-lbl">ROI Dashboard</span></div>
+            </div>
+            <div class="viz-chart">
+              <svg viewBox="0 0 420 190" class="viz-bars">
+                <line x1="30" y1="10" x2="30" y2="150" stroke="rgba(255,255,255,.15)"/>
+                <line x1="30" y1="150" x2="410" y2="150" stroke="rgba(255,255,255,.15)"/>
+                <g class="bars-g">
+                  <rect class="bar" x="34" y="110" width="24" height="40" rx="4"/>
+                  <rect class="bar" x="74" y="98" width="24" height="52" rx="4"/>
+                  <rect class="bar" x="114" y="118" width="24" height="32" rx="4"/>
+                  <rect class="bar bar--hi" x="154" y="88" width="24" height="62" rx="4"/>
+                  <rect class="bar bar--hi" x="194" y="72" width="24" height="78" rx="4"/>
+                  <rect class="bar" x="234" y="92" width="24" height="58" rx="4"/>
+                  <rect class="bar bar--peak" x="274" y="60" width="24" height="90" rx="4"/>
+                  <rect class="bar bar--peak" x="314" y="48" width="24" height="102" rx="4"/>
+                  <rect class="bar bar--top" x="354" y="30" width="24" height="120" rx="4"/>
+                </g>
+                <path class="trend" d="M40 120 C 120 110, 200 80, 366 34"/>
+              </svg>
+            </div>
+            <div class="viz-insight">
+              <span class="viz-insight-icon" aria-hidden="true">âœ¦</span>
+              <p><strong>Insight Lumen:</strong> "Promo akhir pekan menyumbang 61% lonjakan Sepâ€“Nov. Pertahankan, hentikan diskon hari kerja."</p>
+            </div>
+          </div>
+          <div class="viz-float viz-float--l"><span class="viz-float-badge viz-float-badge--green" aria-hidden="true">âœ“</span> Model tervalidasi Â· p &lt; 0.05</div>
+          <div class="viz-float viz-float--r"><span class="viz-float-badge viz-float-badge--lav" aria-hidden="true">â–¤</span> NDA ditandatangani</div>
+        </div>
+      </div>
+
+      <!-- client strip -->
+      <div class="client-strip">
+        <span class="client-strip-label">DIPERCAYA 40+ UMKM &amp; STARTUP</span>
+        <div class="client-strip-overflow">
+          <div class="marquee">
+            <span>Kopi Arunika</span><span>SaaS KiranaFlow</span><span>Ritel Melati &amp; Co</span><span>Logistik NusaTrans</span><span>Dapur Seroja</span><span>EduPrana</span>
+            <span aria-hidden="true">Kopi Arunika</span><span aria-hidden="true">SaaS KiranaFlow</span><span aria-hidden="true">Ritel Melati &amp; Co</span><span aria-hidden="true">Logistik NusaTrans</span><span aria-hidden="true">Dapur Seroja</span><span aria-hidden="true">EduPrana</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 01 FILOSOFI -->
+    <section id="filosofi" class="section section--border">
+      <div class="container filosofi-grid">
+        <div class="filosofi-left">
+          <p class="eyebrow">01 â€” Filosofi Nama</p>
+          <h2 class="h2">Lumen: Arti di Balik Nama &amp; Identitas Lumora</h2>
+          <div class="logo-breakdown">
+            <div class="logo-breakdown-viz" aria-hidden="true">
+              <span class="lb-l">L</span>
+              <span class="lb-bars"><i></i><i></i><i></i></span>
+              <span class="lb-arrow" aria-hidden="true">â†-</span>
+              <span class="lb-star">âœ¦</span>
+            </div>
+            <div class="logo-parts">
+              <button class="logo-part logo-part--active" data-logo="0"><strong>L â€” Fondasi</strong><span>Huruf L yang kokoh</span></button>
+              <button class="logo-part" data-logo="1"><strong>Batang â€” Data</strong><span>Data kuantitatif</span></button>
+              <button class="logo-part" data-logo="2"><strong>Panah â€” Naik</strong><span>Keputusan lebih baik</span></button>
+              <button class="logo-part" data-logo="3"><strong>âœ¦ â€” Insight</strong><span>Cahaya lavender</span></button>
+            </div>
+            <p id="logoDesc" class="logo-desc"><strong>Huruf L</strong> â€” fondasi kokoh: setiap analisis berdiri di atas metode statistika yang valid, bukan opini.</p>
+          </div>
+        </div>
+        <div class="filosofi-right">
+          <blockquote class="filosofi-quote">"Dari kata Latin <em>lumen</em> â€” cahaya. Kami memecahkan kegelapan di balik angka yang rumit, agar Anda berjalan dengan terang."</blockquote>
+          <div class="filosofi-copy">
+            <p>UMKM dan startup Indonesia duduk di atas <strong>tambang data yang tidak terbaca</strong>: struk penjualan, spreadsheet stok, chat pelanggan. Tanpa metode yang tepat, angka-angka itu justru menyesatkan â€” bias konfirmasi membuat Anda melihat apa yang ingin dilihat.</p>
+            <p>Lumora menerjemahkan kerumitan itu menjadi <strong>bahasa keputusan</strong>. Setiap istilah teknis kami jelaskan dalam satu kalimat. Setiap grafik kami uji signifikansinya. Setiap rekomendasi bisa Anda bawa ke rapat â€” dan dipertanggungjawabkan.</p>
+          </div>
+          <div class="filosofi-stats">
+            <span class="stat"><strong>8+</strong><small>tahun pengalaman tim inti</small></span>
+            <span class="stat"><strong>120+</strong><small>proyek selesai</small></span>
+            <span class="stat"><strong>40+</strong><small>klien UMKM &amp; startup</small></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 NILAI -->
+    <section id="nilai" class="section section--white">
+      <div class="container">
+        <div class="section-head section-head--split">
+          <div><p class="eyebrow">02 â€” Nilai Utama</p><h2 class="h2">Empat pilar cara kami bekerja</h2></div>
+          <p class="lede lede--muted">Bukan slogan dinding. Setiap nilai punya konsekuensi operasional â€” dari NDA hingga cara kami menulis laporan.</p>
+        </div>
+        <div class="values-arch reveal">
+          <div class="value-cell">
+            <p class="value-kicker"><span aria-hidden="true">â›¨</span> TRUSTED</p>
+            <h3>Kepercayaan 100%</h3>
+            <p>Seluruh data dan dokumen proyek dilindungi <strong>NDA tertulis</strong>. Tidak dibagikan, tidak dijadikan portofolio tanpa izin Anda.</p>
+          </div>
+          <div class="value-cell">
+            <p class="value-kicker"><span aria-hidden="true">â-Ž</span> ACCURATE</p>
+            <h3>Akurasi Objektif</h3>
+            <p>Model diuji dengan <strong>hypothesis testing &amp; validasi silang</strong>. Jika data tidak mendukung kesimpulan, kami berani berkata "belum cukup bukti".</p>
+          </div>
+          <div class="value-cell">
+            <p class="value-kicker"><span aria-hidden="true">â–£</span> OPEN</p>
+            <h3>Keterbukaan Penuh</h3>
+            <p>Metode, asumsi, dan keterbatasan <strong>ditulis eksplisit</strong> di laporan. Anda tahu persis apa yang bisa â€” dan tidak bisa â€” disimpulkan.</p>
+          </div>
+          <div class="value-cell">
+            <p class="value-kicker"><span aria-hidden="true">âœ¦</span> TOGETHER</p>
+            <h3>Kemitraan Huluâ€“Hilir</h3>
+            <p>Dari audit data sampai <strong>serah terima + pelatihan tim</strong>. Kami tidak pergi setelah presentasi â€” kami memastikan Anda bisa lanjut mandiri.</p>
+          </div>
+        </div>
+        <!-- visi misi -->
+        <div id="visi-misi" class="visi-misi reveal">
+          <div class="visi-card">
+            <span class="visi-dots" aria-hidden="true"></span>
+            <p class="eyebrow eyebrow--light">Visi Kami</p>
+            <p class="visi-text">"Menjadi cahaya penerang bagi setiap keputusan bisnis Indonesia â€” di mana tidak ada lagi keputusan penting yang diambil dalam gelap."</p>
+            <p class="visi-attr">â€” Tim Lumora, Jakarta 2026</p>
+          </div>
+          <div class="misi-list">
+            <div class="misi-item"><span class="misi-num">01</span><div><strong>Mendampingi 500 UMKM melek data pada 2028.</strong><small>Lewat konsultasi terjangkau berbahasa sederhana, bukan jargon akademis.</small></div></div>
+            <div class="misi-item"><span class="misi-num">02</span><div><strong>Menegakkan objektivitas statistik.</strong><small>Setiap insight melewati uji signifikansi &amp; validasi â€” menolak "data asal cocok".</small></div></div>
+            <div class="misi-item"><span class="misi-num">03</span><div><strong>Membangun kapasitas internal klien.</strong><small>Dashboard + pelatihan agar tim Anda mandiri membaca data setelah kami pergi.</small></div></div>
+            <div class="misi-item"><span class="misi-num">04</span><div><strong>Menjaga etika &amp; kerahasiaan tanpa kompromi.</strong><small>NDA di setiap proyek; data tidak pernah dijual atau dipakai ulang.</small></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 LAYANAN -->
+    <section id="layanan" class="section section--border">
+      <div class="container">
+        <div class="section-head section-head--split">
+          <div><p class="eyebrow">03 â€” Layanan Utama</p><h2 class="h2">Empat cara kami membantu â€” pilih yang paling mendesak</h2></div>
+          <p class="lede lede--muted">Klik <em>"Tanya layanan ini"</em> â€” formulir di bawah otomatis terisi sesuai layanan pilihan Anda.</p>
+        </div>
+        <div class="services-grid">
+          <article class="service-card reveal">
+            <span class="service-icon" aria-hidden="true">Î£</span>
+            <p class="service-tag">S-01 Â· KUANTITATIF</p>
+            <h3>Konsultasi Statistika &amp; Pemodelan Kuantitatif</h3>
+            <ul class="service-list">
+              <li><span aria-hidden="true">âœ“</span> Regresi lanjut &amp; ekonometrika <em>(pengaruh promo, harga, musim)</em></li>
+              <li><span aria-hidden="true">âœ“</span> SEM &amp; hypothesis testing <em>(uji klaim "promo ini berhasil")</em></li>
+              <li><span aria-hidden="true">âœ“</span> Survei &amp; sampling yang benar</li>
+            </ul>
+            <button data-service="quantitative" class="service-link">Tanya layanan ini <span aria-hidden="true">â†’</span></button>
+          </article>
+          <article class="service-card service-card--featured reveal">
+            <span class="service-badge">PALING DIMINTA UMKM</span>
+            <span class="service-icon service-icon--ink" aria-hidden="true">â†-</span>
+            <p class="service-tag">S-02 Â· BUSINESS INTELLIGENCE</p>
+            <h3>Business Intelligence &amp; Executive Analytics</h3>
+            <ul class="service-list">
+              <li><span aria-hidden="true">âœ“</span> EDA: bedah data penjualan 360Â°</li>
+              <li><span aria-hidden="true">âœ“</span> Churn prediction &amp; segmentasi pelanggan</li>
+              <li><span aria-hidden="true">âœ“</span> Forecasting stok &amp; permintaan</li>
+            </ul>
+            <button data-service="business_analytics" class="service-link">Tanya layanan ini <span aria-hidden="true">â†’</span></button>
+          </article>
+          <article class="service-card reveal">
+            <span class="service-icon" aria-hidden="true">â–¦</span>
+            <p class="service-tag">S-03 Â· VISUALISASI</p>
+            <h3>Visualisasi Data &amp; Dashboard Interaktif</h3>
+            <ul class="service-list">
+              <li><span aria-hidden="true">âœ“</span> Dashboard eksekutif siap presentasi</li>
+              <li><span aria-hidden="true">âœ“</span> Report bulanan otomatis &amp; rapi</li>
+              <li><span aria-hidden="true">âœ“</span> Audit &amp; perbaikan grafik lama</li>
+            </ul>
+            <button data-service="dashboard" class="service-link">Tanya layanan ini <span aria-hidden="true">â†’</span></button>
+          </article>
+          <article class="service-card reveal">
+            <span class="service-icon" aria-hidden="true">ðŸŽ“</span>
+            <p class="service-tag">S-04 Â· PELATIHAN</p>
+            <h3>Pendampingan &amp; Pelatihan Analisis Data</h3>
+            <ul class="service-list">
+              <li><span aria-hidden="true">âœ“</span> Workshop Excel â†’ dashboard untuk tim non-teknis</li>
+              <li><span aria-hidden="true">âœ“</span> Klinik data: bawa kasus Anda, pulang bawa solusi</li>
+              <li><span aria-hidden="true">âœ“</span> Modul + pendampingan 30 hari</li>
+            </ul>
+            <button data-service="training" class="service-link">Tanya layanan ini <span aria-hidden="true">â†’</span></button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 BUKTI -->
+    <section id="studi-kasus" class="section section--ink">
+      <div class="container">
+        <p class="eyebrow eyebrow--light">04 â€” Bukti Kepercayaan</p>
+        <div class="section-head section-head--split">
+          <h2 class="h2 h2--light">Angka dulu, klaim kemudian</h2>
+          <p class="lede lede--light">Tiga studi kasus ringkas dari proyek nyata (nama disamarkan sesuai NDA). Setiap hasil melewati uji statistik.</p>
+        </div>
+        <div class="cases-grid">
+          <article class="case">
+            <div class="case-top"><span class="case-chip case-chip--amber">F&amp;B UMKM Â· 3 GERAI</span></div>
+            <h3>"Promo mana yang sebenarnya menghasilkan?"</h3>
+            <p>Kedai Kopi Arunika membakar budget di 4 promo sekaligus tanpa tahu pemenangnya.</p>
+            <div class="case-metric"><span>+31%</span><div><small>efektivitas promo</small><small class="case-method">uji A/B 6 minggu Â· EDA + hypothesis testing</small></div></div>
+            <p class="case-foot">Metode: EDA + uji hipotesis promo Â· Waktu: 5 minggu</p>
+          </article>
+          <article class="case case--featured">
+            <div class="case-top"><span class="case-chip case-chip--onbrand">SAAS STARTUP Â· SUBSCRIPTION</span></div>
+            <h3>"Pelanggan pergi tanpa pola yang jelas."</h3>
+            <p>KiranaFlow kehilangan 1 dari 5 pelanggan tiap kuartal. Akuisisi makin mahal.</p>
+            <div class="case-metric case-metric--invert"><span>âˆ’18%</span><div><small>churn dalam 90 hari</small><small class="case-method">churn prediction + segmentasi</small></div></div>
+            <p class="case-foot case-foot--light">Metode: Churn prediction + segmentasi Â· Waktu: 8 minggu</p>
+          </article>
+          <article class="case">
+            <div class="case-top"><span class="case-chip case-chip--green">RITEL UMKM Â· FASHION ONLINE</span></div>
+            <h3>"Stok selalu kelebihan atau kehabisan."</h3>
+            <p>Melati &amp; Co menebak permintaan dengan moving average manual yang sering meleset.</p>
+            <div class="case-metric case-metric--green"><span>+23%</span><div><small>akurasi forecast</small><small class="case-method">vs baseline Â· + dashboard stok</small></div></div>
+            <p class="case-foot">Metode: Forecasting tren + dashboard Â· ROI dashboard 2.4Ã-</p>
+          </article>
+        </div>
+
+        <!-- tim -->
+        <div class="team-block" id="tim">
+          <div class="team-block-head"><h3>Tim ahli yang akan menangani Anda</h3></div>
+          <div class="team-grid">
+            <div class="team-card"><span class="team-avatar team-avatar--lav">AR</span><div class="team-info"><strong>Dr. Anindya Rahma</strong><small>Lead Statistician</small></div><p>Magister Statistika UI Â· 8+ thn ekonometrika &amp; SEM Â· ex-peneliti BRIN</p></div>
+            <div class="team-card"><span class="team-avatar team-avatar--green">DP</span><div class="team-info"><strong>Dimas Prasetyo</strong><small>BI Analyst</small></div><p>Spesialis EDA, forecasting &amp; churn Â· 60+ proyek UMKM/startup</p></div>
+            <div class="team-card"><span class="team-avatar team-avatar--amber">MS</span><div class="team-info"><strong>Maya Salsabila</strong><small>Data Viz Designer</small></div><p>Desainer dashboard eksekutif Â· report investor-ready Â· 5 thn agensi</p></div>
+            <div class="team-card"><span class="team-avatar team-avatar--blue">FB</span><div class="team-info"><strong>Fikri Baharuddin</strong><small>Training Lead</small></div><p>Fasilitator data-driven untuk tim non-teknis Â· 200+ alumni workshop</p></div>
+          </div>
+        </div>
+
+        <!-- testimoni -->
+        <div class="testi-grid">
+          <figure class="testi"><div class="testi-stars" aria-label="5 dari 5">â˜…â˜…â˜…â˜…â˜… <span>5.0</span></div><blockquote>"Laporannya jernih, tidak pakai bahasa langit. Kami akhirnya tahu segmen mana yang harus dikejar â€” dan mana yang harus diikhlaskan."</blockquote><figcaption><span class="testi-avatar testi-avatar--ink">NA</span><div><strong>Nadia Anggraini</strong><small>Owner, Kopi Arunika (F&amp;B UMKM)</small></div></figcaption></figure>
+          <figure class="testi"><div class="testi-stars" aria-label="5 dari 5">â˜…â˜…â˜…â˜…â˜… <span>5.0</span></div><blockquote>"Model churn-nya terbukti. Kami hemat 30% biaya akuisisi karena fokus ke pelanggan yang benar-benar berisiko pergi."</blockquote><figcaption><span class="testi-avatar testi-avatar--lav">RH</span><div><strong>Rizky Hartono</strong><small>COO, KiranaFlow (SaaS Startup)</small></div></figcaption></figure>
+          <figure class="testi"><div class="testi-stars" aria-label="4.9 dari 5">â˜…â˜…â˜…â˜…â˜… <span>4.9</span></div><blockquote>"Dashboard-nya langsung dipakai presentasi ke investor. Rapi, gampang dibaca, dan setiap angka bisa dipertanggungjawabkan."</blockquote><figcaption><span class="testi-avatar testi-avatar--green">SL</span><div><strong>Sinta Larasati</strong><small>Founder, Melati &amp; Co (Ritel Online)</small></div></figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 TRANSFORMASI -->
+    <section id="transformasi" class="section section--parchment">
+      <div class="container transformasi-grid">
+        <div class="transformasi-left">
+          <p class="eyebrow">05 â€” Transformasi</p>
+          <h2 class="h2">Sebelum vs sesudah Lumora</h2>
+          <p class="lede lede--muted">Geser pandangannya dalam satu klik. Inilah perbedaan cara kerja berbasis feeling vs berbasis bukti.</p>
+          <div class="tab-toggle" role="tablist">
+            <button class="tab-btn" data-tab="before" role="tab">Before</button>
+            <button class="tab-btn tab-btn--active" data-tab="after" role="tab">After âœ“</button>
+          </div>
+          <div class="transformasi-meta"><p><strong>Durasi proyek tipikal: 4â€“8 minggu</strong><small>Termasuk audit data, pemodelan, validasi, dashboard &amp; serah terima ber-NDA.</small></p></div>
+        </div>
+        <div class="transformasi-right">
+          <div id="panelBefore" class="ba-panel ba-panel--before" hidden>
+            <p class="ba-tag ba-tag--red">âœ• BEFORE LUMORA</p>
+            <div class="ba-grid">
+              <div class="ba-item"><span aria-hidden="true">â–¢</span><p><strong>Data mentah berantakan.</strong><small>Spreadsheet ganda, format beda-beda, tidak ada definisi kolom.</small></p></div>
+              <div class="ba-item"><span aria-hidden="true">â-</span><p><strong>Bias konfirmasi.</strong><small>Melihat yang ingin dilihat; promo "terasa berhasil" tanpa uji.</small></p></div>
+              <div class="ba-item"><span aria-hidden="true">â-”</span><p><strong>Grafik membingungkan.</strong><small>Pie 3D, sumbu ganda, warna acak â€” rapat jadi debat.</small></p></div>
+              <div class="ba-item"><span aria-hidden="true">âš„</span><p><strong>Keputusan asumsi.</strong><small>Stok, harga, dan hiring ditentukan feeling pemilik.</small></p></div>
+            </div>
+            <div class="ba-callout ba-callout--red">Contoh nyata: diskon 30% "laris" ternyata margin-nya negatif setelah dihitung kontribusi per segmen.</div>
+          </div>
+          <div id="panelAfter" class="ba-panel ba-panel--after">
+            <span class="ba-dots" aria-hidden="true"></span>
+            <p class="ba-tag ba-tag--brand">âœ“ AFTER LUMORA</p>
+            <div class="ba-grid ba-grid--light">
+              <div class="ba-item"><span aria-hidden="true">â–¤</span><p><strong>Model tervalidasi.</strong><small>Data diaudit, dibersihkan, diuji signifikansi (p-value dilaporkan).</small></p></div>
+              <div class="ba-item"><span aria-hidden="true">âœ¦</span><p><strong>Insight jernih (Lumen).</strong><small>Satu kalimat eksekutif per temuan â€” siap dieksekusi.</small></p></div>
+              <div class="ba-item"><span aria-hidden="true">â†-</span><p><strong>Proyeksi terukur.</strong><small>Forecast + interval kepercayaan, bukan angka tunggal bombastis.</small></p></div>
+              <div class="ba-item"><span aria-hidden="true">â-Ž</span><p><strong>Keputusan presisi.</strong><small>Tahu segmen, waktu, dan besaran aksi yang optimal.</small></p></div>
+            </div>
+            <div class="ba-callout ba-callout--white"><strong>Hasil terukur:</strong> +23% akurasi forecast Â· âˆ’18% churn Â· 2.4Ã- ROI dashboard. Semua dengan metodologi yang bisa diaudit.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 METODOLOGI + TENTANG -->
+    <section id="metodologi" class="section section--white">
+      <div class="container">
+        <p class="eyebrow">06 â€” Metodologi &amp; Proses</p>
+        <h2 class="h2 h2--narrow">Alur 4 langkah yang jelas â€” tidak menakutkan, tidak misterius</h2>
+        <div class="steps-grid reveal">
+          <div class="step">
+            <span class="step-num">01</span>
+            <h3>Discovery &amp; Data Audit</h3>
+            <p>Diskusi 60 menit + bedah file Anda. Kami petakan kualitas data &amp; pertanyaan bisnis prioritas. <strong>Gratis &amp; ber-NDA.</strong></p>
+            <span class="step-arrow" aria-hidden="true">â†’</span>
+          </div>
+          <div class="step step--tint">
+            <span class="step-num">02</span>
+            <h3>Statistical Modeling</h3>
+            <p>EDA, regresi / forecasting / segmentasi â€” dipilih sesuai masalah, dijelaskan 1 kalimat per istilah.</p>
+            <span class="step-arrow" aria-hidden="true">â†’</span>
+          </div>
+          <div class="step">
+            <span class="step-num">03</span>
+            <h3>Validation &amp; Insight</h3>
+            <p>Uji hipotesis &amp; validasi silang. Hanya temuan signifikan yang naik jadi rekomendasi eksekutif.</p>
+            <span class="step-arrow" aria-hidden="true">â†’</span>
+          </div>
+          <div class="step step--ink">
+            <span class="step-num">04</span>
+            <h3>Presentation &amp; Handover</h3>
+            <p>Presentasi + dashboard + pelatihan tim 30 hari. Anda mandiri setelah kami pergi.</p>
+          </div>
+        </div>
+        <div id="tentang" class="tentang-grid">
+          <div class="tentang-text">
+            <p class="eyebrow">Tentang Kami</p>
+            <h3>Firma konsultan statistika untuk bisnis yang tidak punya tim data</h3>
+            <div class="tentang-copy">
+              <p>Lumora didirikan di Jakarta oleh statistisi dan analis yang lelah melihat UMKM membayar mahal untuk laporan yang tidak bisa dipakai. Kami percaya <strong>ketelitian akademis dan bahasa warung kopi bisa hidup berdampingan.</strong></p>
+              <p>Kami bekerja untuk founder, manajer operasional, dan tim HR/L&amp;D yang butuh jawaban â€” bukan tumpukan tabel. Prinsip kami: <strong>objektif</strong> (berani bilang data belum cukup), <strong>akurat</strong> (semua diuji), dan <strong>terbuka</strong> (metode ditulis terang).</p>
+            </div>
+            <a href="#kontak" class="btn btn-primary">Ceritakan masalah data Anda <span class="btn-arrow" aria-hidden="true">â†’</span></a>
+          </div>
+          <div class="tentang-numbers">
+            <div class="tnum"><strong>8+</strong><small>tahun pengalaman</small></div>
+            <div class="tnum"><strong>120+</strong><small>proyek selesai</small></div>
+            <div class="tnum tnum--accent"><strong>98%</strong><small>klien puas*</small></div>
+            <p class="tnum-foot">*Survei kepuasan pasca-proyek 2024â€“2025, n=64 responden.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 KONTAK -->
+    <section id="kontak" class="section section--paper">
+      <div class="container kontak-grid">
+        <div class="kontak-left">
+          <p class="eyebrow">07 â€” Mulai Sekarang</p>
+          <h2 class="h2">Siap mengubah data Anda menjadi wawasan strategis?</h2>
+          <p class="lede lede--muted">Ceritakan masalah Anda dalam 2 menit. Tim kami membalas dengan <strong>jadwal diskusi awal gratis 30 menit</strong> â€” tanpa komitmen, tanpa jargon.</p>
+          <div class="kontak-info">
+            <div class="kontak-info-item"><span aria-hidden="true">âœ‰</span><span><strong>halo@lumora.id</strong> <small>Â· balasan &lt; 1Ã-24 jam</small></span></div>
+            <div class="kontak-info-item"><span aria-hidden="true">â-‰</span><span>Jl. Cahaya Data No. 8, Kebayoran Baru, Jakarta Selatan</span></div>
+            <div class="kontak-info-item"><span aria-hidden="true">âŒ-</span><span>linkedin.com/company/lumora-data <small>Â· Seninâ€“Jumat 09.00â€“17.00 WIB</small></span></div>
+          </div>
+          <div class="kontak-nda"><span aria-hidden="true">â›¨</span><p><strong>Jaminan NDA:</strong> setiap diskusi &amp; file yang Anda kirim dilindungi perjanjian kerahasiaan â€” bahkan sebelum kontrak.</p></div>
+        </div>
+        <div class="kontak-right">
+          <form id="leadForm" class="lead-form" novalidate>
+            <div class="lead-form-head">
+              <h3>Formulir Permintaan Konsultasi</h3>
+              <span class="lead-badge">GRATIS Â· 2 MENIT</span>
+            </div>
+            <div class="lead-grid2">
+              <div class="field"><label for="fNama">Nama Lengkap *</label><input id="fNama" name="fullName" required placeholder="cth. Putri Maharani"></div>
+              <div class="field"><label for="fEmail">Email Perusahaan *</label><input id="fEmail" name="companyEmail" type="email" required placeholder="nama@perusahaan.com"><p class="field-err" data-err="email" hidden>Format email tidak valid.</p></div>
+            </div>
+            <div class="lead-grid2">
+              <div class="field"><label for="fInstansi">Nama Instansi / Perusahaan *</label><input id="fInstansi" name="companyName" required placeholder="cth. Kopi Arunika"></div>
+              <div class="field"><label for="fLayanan">Jenis Layanan *</label>
+                <select id="fLayanan" name="serviceKey" required>
+                  <option value="">â€” Pilih layanan â€”</option>
+                  <option value="quantitative">Statistika Kuantitatif (regresi, SEM, uji hipotesis)</option>
+                  <option value="business_analytics">Business Analytics (churn, segmentasi, forecast)</option>
+                  <option value="dashboard">Dashboard &amp; Visualisasi</option>
+                  <option value="training">Pelatihan &amp; Pendampingan Tim</option>
+                </select>
+              </div>
+            </div>
+            <div class="field"><label for="fMasalah">Gambaran Permasalahan * <span class="field-hint">(min. 20 karakter)</span></label><textarea id="fMasalah" name="problemDescription" rows="4" required placeholder="cth. Saya punya data penjualan 2 tahun di Excel, ingin tahu promo mana yang efektif dan stok apa yang harus ditambah bulan depanâ€¦"></textarea></div>
+            <input type="text" id="fWebsite" name="website" class="honeyfield" tabindex="-1" autocomplete="off" aria-hidden="true" aria-label="Jangan diisi">
+            <button type="submit" id="submitBtn" class="btn btn-primary btn-block">Kirim Permintaan Konsultasi <span class="btn-arrow" aria-hidden="true">âœ‰</span></button>
+            <p class="lead-nda"><span aria-hidden="true">â›¨</span> Data dan informasi proyek Anda dijamin kerahasiaannya di bawah <strong>NDA</strong>.</p>
+            <div id="formOk" class="form-status form-status--ok" hidden><strong>âœ“ Terima kasih!</strong> Tim kami akan menghubungi Anda dalam 1Ã-24 jam. Cek email untuk jadwal diskusi awal.</div>
+            <div id="formErr" class="form-status form-status--err" hidden>Mohon lengkapi field bertanda * dan periksa format email. Data Anda tidak hilang â€” perbaiki lalu kirim ulang.</div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-strip">
+      <div class="container">
+        <div class="footer-strip-grid">
+          <div>
+            <span class="footer-strip-badge">MULAI DENGAN DISKUSI 30 MENIT â€” GRATIS</span>
+            <p class="footer-strip-title">Bawa spreadsheet paling berantakan Anda. Pulang dengan peta jalan yang jernih.</p>
+          </div>
+          <div class="footer-strip-cta">
+            <a href="#kontak" class="btn btn-invert">Jadwalkan Konsultasi <span class="btn-arrow" aria-hidden="true">â†’</span></a>
+            <a href="/layanan.html" class="btn btn-ghost btn-ghost--light">Jelajahi Layanan Detail</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a class="brand brand--logo" href="#beranda" aria-label="Lumora">
+          <img src="/logo.svg" alt="Lumora" width="160" height="42">
+        </a>
+        <p><em class="serif-italic">Illuminate Data, Empower Decisions.</em><br>Firma konsultan statistika &amp; analitik premium untuk UMKM, startup, dan korporat Indonesia.</p>
+      </div>
+      <nav aria-label="Jelajah">
+        <p class="footer-heading">Jelajah</p>
+        <a href="#beranda">Beranda</a>
+        <a href="#filosofi">Filosofi Lumen</a>
+        <a href="#nilai">Nilai Utama</a>
+        <a href="#visi-misi">Visi &amp; Misi</a>
+        <a href="#tentang">Tentang Kami</a>
+      </nav>
+      <nav aria-label="Layanan">
+        <p class="footer-heading">Layanan</p>
+        <a href="#layanan">Statistika &amp; Pemodelan Kuantitatif</a>
+        <a href="#layanan">Business Intelligence</a>
+        <a href="#layanan">Dashboard &amp; Visualisasi</a>
+        <a href="#layanan">Pelatihan &amp; Pendampingan</a>
+        <a href="/harga.html" class="footer-highlight">Harga &amp; paket â†’</a>
+      </nav>
+      <nav aria-label="Bantuan">
+        <p class="footer-heading">Bantuan &amp; Legal</p>
+        <a href="#studi-kasus">Studi Kasus &amp; Testimoni</a>
+        <a href="#metodologi">Metodologi &amp; Proses</a>
+        <a href="#kontak">Kontak &amp; NDA</a>
+        <a href="/privasi.html">Kebijakan Privasi Data</a>
+        <a href="/syarat.html">Etika Konsultasi</a>
+      </nav>
+    </div>
+    <div class="footer-word" aria-hidden="true">LUMORAâœ¦</div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>Â© 2026 Lumora Statistics &amp; Data Consulting. All rights reserved.</p>
+        <p class="footer-bottom-right"><span>â›¨ HTTPS Â· NDA-first</span><a href="#beranda">Kembali ke atas</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <a href="#kontak" class="cta-mobile">Jadwalkan Konsultasi Gratis</a>
+
+  <a class="wa-float" href="https://wa.me/628111344438" target="_blank" rel="noopener" aria-label="Chat via WhatsApp">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.3-.1-.8-.3-1.4-.5-.5-.2-1-.4-1.5-.7-.2-.1-.4-.2-.6-.3-.2-.1-.3-.2-.5-.3-.2-.1-.3-.2-.5-.3-.1-.1-.2-.2-.3-.4-.5-.6-.8-1.3-.9-2-.1-.7 0-1.4.4-1.8.4-.4.5-.4.7-.6.2-.1.4-.2.5-.3.2.1.3.3.5.4.2.2.4.4.6.7.2.3.5.8.7 1 .2.3.3.5.4.7.1.1.1.2.1.3.1.2.1.4 0 .5-.1.2-.2.3-.3.5-.1.1-.1.3-.2.4-.1.1-.2.3-.5.3-.3.1-.6 0-.9-.2-.3-.2-.7-.4-1.1-.7-.4-.3-.7-.7-1-1.1-.2-.4-.4-.8-.4-1.1 0-.4 0-.7.2-1 .2-.3.3-.4.5-.6.1-.1.2-.2.4-.1.2 0 .3.1.5.3.2.2.4.4.5.5.1.1.2.3.3.4.1.1.1.3.2.5.1.2.1.3.1.5 0 .1 0 .3-.1.5-.2.4-.5.5-.7.6-.2.1-.4.2-.3.5.1.3.4.7.8 1 .4.3.8.5 1.1.7.4.2.8.4 1.2.5.4.2.8.2 1 .1.2-.1.4-.3.6-.5.2-.1.4-.4.6-.5.2-.1.4-.1.6.1.2.2.5.5.7.8.2.3.5.8.4 1.4Z"/></svg>
+  </a>
+
+  <script type="module" src="/home.js"></script>
+</body>
+</html>

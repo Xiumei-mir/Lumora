@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Admin â€” Lumora</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:wght@400;430;450;480;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="site-nav" style="position:relative;">
+    <a class="brand brand--logo" href="/"><img src="/logo.svg" alt="Lumora - Statistics & Data Consulting" width="180" height="48"></a>
+    <span id="navUser" style="font-size:14px;color:var(--muted);"></span>
+  </header>
+
+  <div class="dash-layout">
+    <aside class="dash-side">
+      <p class="side-label">Menu</p>
+      <a href="#dashboard" data-tab="dashboard" class="active">Dashboard</a>
+      <a href="#order" data-tab="order">Manajemen Order</a>
+      <a href="#leads" data-tab="leads">Leads</a>
+      <a href="#klien" data-tab="klien">Klien</a>
+      <a href="#jadwal" data-tab="jadwal">Jadwal</a>
+      <a href="#konten" data-tab="konten">Konten</a>
+      <p class="side-label">Sistem</p>
+      <a href="/" target="_blank">Kembali ke Situs</a>
+      <a href="#" data-logout>Keluar</a>
+    </aside>
+    <main class="dash-main" id="main"></main>
+  </div>
+
+  <script type="module">
+    import { requireAuth, api, fmtRp, fmtDate, statusBadge, getUser, saveSession, bindLogout } from '/portal-lib.js';
+
+    const user = requireAuth(['admin', 'statistician']);
+    if (!user) { /* redirected */ }
+    bindLogout();
+    document.getElementById('navUser').textContent = `Halo, ${user.name} (${user.role})`;
+    bindLogout();
+
+    const main = document.getElementById('main');
+    const FLOW = ['menunggu_pembayaran','menunggu_data','verifikasi_data','dalam_pengerjaan','review_internal','hasil_siap','revisi','selesai'];
+
+    async function loadDashboard() {
+      main.innerHTML = '<p class="dash-sub">Memuatâ€¦</p>';
+      const { total, byStatus, revenue, leads, recent } = await api('/admin/stats');
+      main.innerHTML = `
+        <h1 class="dash-title">Dashboard</h1>
+        <p class="dash-sub">Ringkasan operasional Lumora.</p>
+        <div class="stat-row">
+          <div class="stat-box"><div class="stat-num">${total}</div><div class="stat-label">Total order</div></div>
+          <div class="stat-box"><div class="stat-num">${fmtRp(revenue)}</div><div class="stat-label">Pendapatan terkumpul</div></div>
+          <div class="stat-box"><div class="stat-num">${leads.reduce((s,l)=>s+l.c,0)}</div><div class="stat-label">Leads masuk</div></div>
+          <div class="stat-box"><div class="stat-num">${byStatus.filter(s=>s.status!=='selesai').reduce((s,x)=>s+x.c,0)}</div><div class="stat-label">Order berjalan</div></div>
+        </div>
+        <h2 class="h2" style="font-size:24px;margin-bottom:16px;">Order terbaru</h2>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Kode</th><th>Klien</th><th>Status</th><th>Total</th></tr></thead>
+            <tbody>${recent.map(o=>`<tr><td><strong>${o.code}</strong></td><td>${o.client||'â€”'}</td><td>${statusBadge(o.status)}</td><td>${fmtRp(o.total)}</td></tr>`).join('')}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    async function loadOrders() {
+      main.innerHTML = '<p class="dash-sub">Memuatâ€¦</p>';
+      const { orders } = await api('/admin/orders');
+      const { users } = await api('/admin/clients').catch(()=>({users:[]}));
+      main.innerHTML = `
+        <h1 class="dash-title">Manajemen Order</h1>
+        <p class="dash-sub">Kelola status dan penugasan order.</p>
+        <div class="data-table-wrap">
+          <table class="data-table" id="ordersTable">
+            <thead><tr><th>Kode</th><th>Klien</th><th>Layanan</th><th>Status</th><th class="data-table-hide-sm">Total</th><th>Aksi</th></tr></thead>
+            <tbody>
+              ${orders.map(o=>`
+                <tr data-id="${o.id}">
+                  <td><strong>${o.code}</strong></td>
+                  <td>${o.client_name||'â€”'}</td>
+                  <td>${o.service_title||o.package_name||'â€”'}</td>
+                  <td>
+                    <select data-status style="padding:6px 10px;border:1px solid var(--lav-200);border-radius:10px;font-size:13px;">
+                      ${FLOW.map(s=>`<option value="${s}" ${o.status===s?'selected':''}>${s.replace(/_/g,' ')}</option>`).join('')}
+                    </select>
+                  </td>
+                  <td class="data-table-hide-sm">${fmtRp(o.total)}</td>
+                  <td>
+                    ${user.role==='admin' ? `<select data-assign style="padding:6px 10px;border:1px solid var(--lav-200);border-radius:10px;font-size:13px;"><option value="">Tugaskanâ€¦</option>${[...new Set(orders.map(x=>x.assigned_to).filter(Boolean))].concat([]).map(id=>`<option value="${id}">Statistisi #${id}</option>`).join('')}</select>` : ''}
+                  </td>
+                </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+      document.querySelectorAll('#ordersTable select[data-status]').forEach(sel => {
+        sel.addEventListener('change', async () => {
+          const row = sel.closest('tr');
+          await api(`/orders/${row.dataset.id}/status`, { method:'POST', body:{ status: sel.value, note:'Ubah status oleh admin' } });
+          statusBadgeUpdate(row, sel.value);
+        });
+      });
+      function statusBadgeUpdate(row, val){ /* reload ringan */ setTimeout(loadOrders, 200); }
+    }
+
+    async function loadLeads() {
+      main.innerHTML = '<p class="dash-sub">Memuatâ€¦</p>';
+      const { leads } = await api('/admin/leads');
+      main.innerHTML = `
+        <h1 class="dash-title">Leads</h1>
+        <p class="dash-sub">Permintaan konsultasi dari form publik.</p>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Nama</th><th>Email</th><th>Segmen</th><th>Layanan</th><th>Status</th><th>Tindak lanjut</th></tr></thead>
+            <tbody>
+              ${leads.map(l=>`
+                <tr data-id="${l.id}">
+                  <td>${l.name}</td>
+                  <td>${l.email}</td>
+                  <td>${l.segment||'â€”'}</td>
+                  <td>${l.service||'â€”'}</td>
+                  <td>${statusBadge(l.status==='new'?'menunggu_data':l.status)}</td>
+                  <td>
+                    <select data-lead-status style="padding:6px 10px;border:1px solid var(--lav-200);border-radius:10px;font-size:13px;">
+                      ${['new','diproses','dikonversi','ditolak'].map(s=>`<option value="${s}" ${l.status===s?'selected':''}>${s}</option>`).join('')}
+                    </select>
+                  </td>
+                </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+        ${leads.length?`<div style="margin-top:24px;font-size:14px;color:var(--muted);">
+          <strong>Pesan lead terakhir:</strong> ${escapeHtml(leads[0].message||'â€”')}
+        </div>`:''}
+      `;
+      document.querySelectorAll('select[data-lead-status]').forEach(sel => {
+        sel.addEventListener('change', async () => {
+          await api(`/admin/leads/${sel.closest('tr').dataset.id}/status`, { method:'POST', body:{ status: sel.value } });
+          setTimeout(loadLeads, 200);
+        });
+      });
+      function escapeHtml(s){ return (s||'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+    }
+
+    async function loadKlien() {
+      main.innerHTML = '<p class="dash-sub">Memuatâ€¦</p>';
+      const { clients } = await api('/admin/clients');
+      main.innerHTML = `
+        <h1 class="dash-title">Klien</h1>
+        <p class="dash-sub">${clients.length} akun klien terdaftar.</p>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Nama</th><th>Email</th><th>Segmen</th><th class="data-table-hide-sm">Order</th></tr></thead>
+            <tbody>
+              ${clients.map(c=>`<tr><td>${c.name}</td><td>${c.email}</td><td>${c.segment||'â€”'}</td><td class="data-table-hide-sm">${c.orders_count||0}</td></tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    async function loadJadwal() {
+      main.innerHTML = '<p class="dash-sub">Memuatâ€¦</p>';
+      const { bookings } = await api('/bookings/all').catch(()=>({bookings:[]}));
+      main.innerHTML = `
+        <h1 class="dash-title">Jadwal Konsultasi</h1>
+        <p class="dash-sub">Booking sesi konsultasi dari klien.</p>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Nama</th><th>Email</th><th>Slot</th><th>Metode</th><th>Status</th></tr></thead>
+            <tbody>
+              ${bookings.map(b=>`<tr><td>${b.user_name||b.name||'â€”'}</td><td>${b.email||'â€”'}</td><td>${b.slot}</td><td>${b.method}</td><td>${statusBadge(b.status==='pending'?'menunggu_data':b.status)}</td></tr>`).join('') || '<tr><td colspan="5">Belum ada booking.</td></tr>'}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    async function loadKonten() {
+      main.innerHTML = '<p class="dash-sub">Memuatâ€¦</p>';
+      const { services } = await api('/admin/services');
+      main.innerHTML = `
+        <h1 class="dash-title">Konten â€” Layanan</h1>
+        <p class="dash-sub">Kelola katalog layanan.</p>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Key</th><th>Judul</th><th>Aktif</th></tr></thead>
+            <tbody>
+              ${services.map(s=>`<tr><td>${s.key}</td><td>${s.title}</td><td>${s.active?'Ya':'Tidak'}</td></tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    const tabs = { dashboard: loadDashboard, order: loadOrders, leads: loadLeads, klien: loadKlien, jadwal: loadJadwal, konten: loadKonten };
+
+    function activate(name) {
+      document.querySelectorAll('.dash-side a[data-tab]').forEach(a => a.classList.toggle('active', a.dataset.tab === name));
+      (tabs[name] || loadDashboard)();
+    }
+    document.querySelectorAll('.dash-side a[data-tab]').forEach(a => a.addEventListener('click', (e) => { e.preventDefault(); activate(a.dataset.tab); }));
+    activate('dashboard');
+  </script>
+</body>
+</html>

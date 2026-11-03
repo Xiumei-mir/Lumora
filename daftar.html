@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar — Lumora</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Inter:wght@400;430;450;480;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="auth-body">
+  <a class="brand brand--logo" href="/"><img src="/logo.svg" alt="Lumora" width="180" height="48"></a>
+
+  <main class="auth-wrap">
+    <div class="auth-card">
+      <h1 class="display-sm" style="font-size:32px;">Buat akun</h1>
+      <p class="auth-sub">Untuk order layanan dan akses portal klien.</p>
+      <form id="regForm" class="auth-form" novalidate>
+        <label><span class="field-label">Nama</span><input type="text" name="name" required autocomplete="name" placeholder="Nama lengkap"></label>
+        <label><span class="field-label">Email</span><input type="email" name="email" required autocomplete="email" placeholder="nama@instansi.id"></label>
+        <label><span class="field-label">Nomor WhatsApp</span><input type="tel" name="phone" autocomplete="tel" placeholder="08xxxxxxxxxx"></label>
+        <label>
+          <span class="field-label">Segmen</span>
+          <select name="segment">
+            <option value="" selected>Pilih segmen</option>
+            <option>Mahasiswa / Akademisi</option>
+            <option>Bisnis / Korporasi</option>
+            <option>Pemerintah / Lembaga Riset</option>
+          </select>
+        </label>
+        <label><span class="field-label">Kata sandi</span><input type="password" name="password" required autocomplete="new-password" placeholder="Min. 6 karakter"></label>
+        <button type="submit" class="btn btn-primary btn-block">Daftar</button>
+        <div class="auth-links"><a href="/login.html">Sudah punya akun? Masuk</a></div>
+        <p class="form-status" id="regStatus" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </main>
+  <script type="module" src="/daftar.js"></script>
+</body>
+</html>
