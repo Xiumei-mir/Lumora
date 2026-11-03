@@ -40,14 +40,14 @@ if "%COMMITMSG%"=="" set COMMITMSG=update %date% %time%
 
 echo.
 echo [1/3] Commiting...
-git commit -m "%COMMITMSG%"
+git commit -m "%COMMITMSG%" >nul 2>&1
 if errorlevel 1 (
-    echo [INFO] Commit gagal.
-    pause
-    exit /b 1
+    echo [INFO] Tidak ada yang di-commit.
+    goto :PUSH
 )
-
 echo.
+
+:PUSH
 echo [2/3] Push ke GitHub...
 git push
 if errorlevel 1 (
