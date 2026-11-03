@@ -1,1 +1,17 @@
- i m p o r t p g f r o m ' p g ' ; i m p o r t { c r e a t e R e q u i r e } f r o m ' m o d u l e ' ; c o n s t r e q u i r e = c r e a t e R e q u i r e ( i m p o r t . m e t a . u r l ) ; c o n s t P o o l = p g . P o o l ; / / K o n e k s i P o s t g r e s ( v i a N e o n ) a m b i l d a r i e n v i r o n m e n t c o n s t p o o l = n e w P o o l ( { c o n n e c t i o n S t r i n g : p r o c e s s . e n v . D A T A B A S E _ U R L , s s l : p r o c e s s . e n v . D A T A B A S E _ U R L ? . i n c l u d e s ( ' n e o n . t e c h ' ) ? { r e j e c t U n a u t h o r i z e d : f a l s e } : u n d e f i n e d , } ) ; p o o l . o n ( ' e r r o r ' , ( e r r ) = > { c o n s o l e . e r r o r ( ' U n e x p e c t e d P G p o o l e r r o r ' , e r r ) ; } ) ; e x p o r t d e f a u l t p o o l ; 
+import pg from 'pg';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+const Pool = pg.Pool;
+
+// Koneksi Postgres (via Neon) — ambil dari environment
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.DATABASE_URL?.includes('neon.tech') ? { rejectUnauthorized: false } : undefined,
+});
+
+pool.on('error', (err) => {
+  console.error('Unexpected PG pool error', err);
+});
+
+export default pool;
