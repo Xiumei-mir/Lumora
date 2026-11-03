@@ -28,24 +28,25 @@ REM Cek perubahan ada
 git add .
 git status --porcelain >nul 2>nul
 if errorlevel 1 (
-    echo [INFO] Tidak ada perubahan untuk di-push.
+    echo [INFO] Tidak ada perubahan baru.
+    echo.
     pause
     exit /b 0
 )
 
-REM Tanya pesan commit
-set /p COMMITMSG=Pesan commit (ketik, Enter kalau kosong):
+REM Ada perubahan, minta pesan commit
+set /p COMMITMSG=Pesan commit (Enter = otomatis):
 if "%COMMITMSG%"=="" set COMMITMSG=update %date% %time%
 
 echo.
 echo [1/3] Commiting...
 git commit -m "%COMMITMSG%"
 if errorlevel 1 (
-    echo [INFO] Tidak ada yang di-commit (mungkin udah commit).
-    goto :PUSH
+    echo [INFO] Commit gagal.
+    pause
+    exit /b 1
 )
 
-:PUSH
 echo.
 echo [2/3] Push ke GitHub...
 git push
@@ -59,7 +60,5 @@ echo.
 echo [3/3] Selesai!
 echo.
 echo Railway auto-redeploy dalam 1-2 menit.
-echo Cek di panel Railway:
-echo   https://railway.app/project (deploy terakhir harus hijau)
-echo.
+echo Cek di panel Railway: https://railway.app/project
 pause
