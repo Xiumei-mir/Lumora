@@ -1,1 +1,33 @@
- / / S e e d a k u n d e m o ( P o s t g r e s ) i m p o r t p o o l f r o m ' . / d b . j s ' ; i m p o r t { h a s h P a s s w o r d } f r o m ' . / a u t h . j s ' ; a s y n c f u n c t i o n m a i n ( ) { c o n s t u s e r s = [ { n a m e : ' A d m i n L u m o r a ' , e m a i l : ' a d m i n @ l u m o r a . i d ' , p a s s w o r d : ' a d m i n 1 2 3 ' , r o l e : ' a d m i n ' } , { n a m e : ' R e z a A d i t y a ' , e m a i l : ' r e z a @ l u m o r a . i d ' , p a s s w o r d : ' r e z a 1 2 3 ' , r o l e : ' s t a t i s t i c i a n ' } , { n a m e : ' D e w i M a h a s i s w a ' , e m a i l : ' d e w i @ m a i l . c o m ' , p a s s w o r d : ' d e w i 1 2 3 ' , r o l e : ' c l i e n t ' , s e g m e n t : ' M a h a s i s w a / A k a d e m i s i ' } ] ; f o r ( c o n s t u o f u s e r s ) { c o n s t e x i s t i n g = a w a i t p o o l . q u e r y ( ' S E L E C T i d F R O M u s e r s W H E R E e m a i l = $ 1 ' , [ u . e m a i l ] ) ; i f ( e x i s t i n g . r o w s . l e n g t h ) { c o n s o l e . l o g ( ' s k i p ' , u . e m a i l ) ; c o n t i n u e ; } c o n s t h a s h = a w a i t h a s h P a s s w o r d ( u . p a s s w o r d ) ; c o n s t i n f o = a w a i t p o o l . q u e r y ( ' I N S E R T I N T O u s e r s ( n a m e , e m a i l , p a s s w o r d _ h a s h , r o l e , s e g m e n t ) V A L U E S ( $ 1 , $ 2 , $ 3 , $ 4 , $ 5 ) R E T U R N I N G i d ' , [ u . n a m e , u . e m a i l , h a s h , u . r o l e , u . s e g m e n t | | n u l l ] ) ; c o n s o l e . l o g ( ' c r e a t e d ' , u . e m a i l , ' i d ' , i n f o . r o w s [ 0 ] . i d , u . r o l e ) ; } / / s a m p l e o r d e r c o n s t d e w i = a w a i t p o o l . q u e r y ( ' S E L E C T i d F R O M u s e r s W H E R E e m a i l = $ 1 ' , [ ' d e w i @ m a i l . c o m ' ] ) ; c o n s t d e w i I d = d e w i . r o w s [ 0 ] ? . i d ; i f ( d e w i I d ) { c o n s t e x i s t i n g = a w a i t p o o l . q u e r y ( ' S E L E C T i d F R O M o r d e r s W H E R E c o d e = $ 1 ' , [ ' L U M - D E M O 1 ' ] ) ; i f ( ! e x i s t i n g . r o w s . l e n g t h ) { a w a i t p o o l . q u e r y ( ` I N S E R T I N T O o r d e r s ( c o d e , u s e r _ i d , s e r v i c e _ i d , p a c k a g e _ n a m e , t o t a l , p a i d , s t a t u s , b r i e f , a s s i g n e d _ t o , d u e _ d a t e ) V A L U E S ( ' L U M - D E M O 1 ' , $ 1 , 3 , ' P a k e t T e s i s & J u r n a l ' , 2 4 0 0 0 0 0 , 1 2 0 0 0 0 0 , ' d a l a m _ p e n g e r j a a n A n a l i s i s S E M P L S u n t u k t e s i s 2 2 0 2 6 - 1 2 - 1 5 ' ) ` , [ d e w i I d ] ) ; a w a i t p o o l . q u e r y ( ` I N S E R T I N T O o r d e r _ e v e n t s ( o r d e r _ i d , s t a t u s , n o t e , a c t o r ) V A L U E S ( ( S E L E C T i d F R O M o r d e r s W H E R E c o d e = ' L U M - D E M O 1 ' ) , ' d a l a m _ p e n g e r j a a n D e m o s e e d a d m i n ' ) ` ) ; a w a i t p o o l . q u e r y ( ` I N S E R T I N T O p a y m e n t s ( o r d e r _ i d , m e t h o d , a m o u n t , s t a t u s , r e f e r e n c e ) V A L U E S ( ( S E L E C T i d F R O M o r d e r s W H E R E c o d e = ' L U M - D E M O 1 ' ) , ' V A ' , 1 2 0 0 0 0 0 , ' p a i d R E F - D E M O ' ) ` ) ; c o n s o l e . l o g ( ' c r e a t e d o r d e r L U M - D E M O 1 ' ) ; } } c o n s o l e . l o g ( ' s e e d d o n e ' ) ; } m a i n ( ) . t h e n ( ( ) = > p r o c e s s . e x i t ( 0 ) ) . c a t c h ( ( e ) = > { c o n s o l e . e r r o r ( e ) ; p r o c e s s . e x i t ( 1 ) ; } ) ; 
+// Seed akun demo (Postgres)
+import pool from './db.js';
+import { hashPassword } from './auth.js';
+
+async function main() {
+  const users = [
+    { name: 'Admin Lumora', email: 'admin@lumora.id', password: 'admin123', role: 'admin' },
+    { name: 'Reza Aditya', email: 'reza@lumora.id', password: 'reza123', role: 'statistician' },
+    { name: 'Dewi Mahasiswa', email: 'dewi@mail.com', password: 'dewi123', role: 'client', segment: 'Mahasiswa / Akademisi' }
+  ];
+  for (const u of users) {
+    const exists = await pool.query('SELECT id FROM users WHERE email=$1', [u.email]);
+    if (exists.rows.length) { console.log('skip', u.email); continue; }
+    const hash = await hashPassword(u.password);
+    const info = await pool.query('INSERT INTO users (name,email,password_hash,role,segment) VALUES ($1,$2,$3,$4,$5) RETURNING id', [u.name,u.email,hash,u.role,u.segment||null]);
+    console.log('created', u.email, 'id', info.rows[0].id, u.role);
+  }
+  // sample order milik dewi (id 3)
+  const orders = [
+    { code:'LUM-DEMO1', user_id:3, service_id:3, package_name:'Paket Tesis & Jurnal', total:2400000, paid:1200000, status:'dalam_pengerjaan', brief:'Analisis SEM PLS untuk tesis', assigned_to:2, due_date:'2026-12-15' },
+    { code:'LUM-DEMO2', user_id:3, service_id:1, package_name:'Paket Skripsi', total:850000, paid:0, status:'menunggu_pembayaran', brief:'Uji regresi sederhana skripsi' }
+  ];
+  for (const o of orders) {
+    const ex = await pool.query('SELECT id FROM orders WHERE code=$1', [o.code]);
+    if (ex.rows.length) continue;
+    const info = await pool.query(`INSERT INTO orders (code,user_id,service_id,package_name,total,paid,status,brief,assigned_to,due_date) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`, [o.code,o.user_id,o.service_id,o.package_name,o.total,o.paid,o.status,o.brief,o.assigned_to||null,o.due_date||null]);
+    await pool.query('INSERT INTO order_events (order_id,status,note,actor) VALUES ($1,$2,$3,$4)', [info.rows[0].id,o.status,'Demo seed','admin']);
+    if (o.paid > 0) await pool.query('INSERT INTO payments (order_id,method,amount,status,reference) VALUES ($1,$2,$3,$4,$5)', [info.rows[0].id,'VA',o.paid,'paid','REF-DEMO']);
+    console.log('created order', o.code);
+  }
+  console.log('seed done');
+}
+main().catch(e => { console.error(e); process.exit(1); });
