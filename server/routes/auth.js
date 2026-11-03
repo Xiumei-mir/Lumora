@@ -1,1 +1,61 @@
- i m p o r t { R o u t e r } f r o m ' e x p r e s s ' ; i m p o r t p o o l f r o m ' . . / d b . j s ' ; i m p o r t { s i g n T o k e n , c o m p a r e P a s s w o r d , h a s h P a s s w o r d } f r o m ' . . / a u t h . j s ' ; i m p o r t { a u t h } f r o m ' . . / m i d d l e w a r e . j s ' ; c o n s t r = R o u t e r ( ) ; r . p o s t ( ' / r e g i s t e r ' , a s y n c ( r e q , r e s ) = > { c o n s t { n a m e , e m a i l , p a s s w o r d , r o l e = ' c l i e n t ' , p h o n e , s e g m e n t , c o m p a n y } = r e q . b o d y ; i f ( ! n a m e | | ! e m a i l | | ! p a s s w o r d ) r e t u r n r e s . s t a t u s ( 4 0 0 ) . j s o n ( { e r r o r : ' d a t a _ t i d a k _ l e n g k a p ' } ) ; i f ( S t r i n g ( p a s s w o r d ) . l e n g t h < 6 ) r e t u r n r e s . s t a t u s ( 4 0 0 ) . j s o n ( { e r r o r : ' p a s s w o r d _ m i n y _ 6 _ k a r a k t e r ' } ) ; c o n s t a l l o w e d = [ ' c l i e n t ' , ' s t a t i s t i c i a n ' , ' a d m i n ' ] ; c o n s t s a f e R o l e = a l l o w e d . i n c l u d e s ( r o l e ) ? r o l e : ' c l i e n t ' ; t r y { c o n s t h a s h = a w a i t h a s h P a s s w o r d ( p a s s w o r d ) ; c o n s t i n f o = a w a i t p o o l . q u e r y ( ' I N S E R T I N T O u s e r s ( n a m e , e m a i l , p a s s w o r d _ h a s h , r o l e , p h o n e , s e g m e n t , c o m p a n y ) V A L U E S ( $ 1 , $ 2 , $ 3 , $ 4 , $ 5 , $ 6 , $ 7 ) R E T U R N I N G i d , n a m e , e m a i l , r o l e , s e g m e n t , c o m p a n y ' , [ n a m e , e m a i l , h a s h , s a f e R o l e , p h o n e | | n u l l , s e g m e n t | | n u l l , c o m p a n y | | n u l l ] ) ; c o n s t u s e r = i n f o . r o w s [ 0 ] ; c o n s t t o k e n = s i g n T o k e n ( u s e r ) ; r e s . s t a t u s ( 2 0 1 ) . j s o n ( { t o k e n , u s e r } ) ; } c a t c h ( e ) { i f ( e . c o d e = = = ' 2 3 5 0 5 ' ) r e t u r n r e s . s t a t u s ( 4 0 9 ) . j s o n ( { e r r o r : ' e m a i l _ s u d a h _ d a f t a r ' } ) ; r e s . s t a t u s ( 5 0 0 ) . j s o n ( { e r r o r : ' g a g a l _ d a f t a r ' } ) ; } } ) ; r . p o s t ( ' / l o g i n ' , a s y n c ( r e q , r e s ) = > { c o n s t { e m a i l , p a s s w o r d } = r e q . b o d y ; c o n s t r e s u l t = a w a i t p o o l . q u e r y ( ' S E L E C T * F R O M u s e r s W H E R E e m a i l = $ 1 ' , [ e m a i l ] ) ; c o n s t u s e r = r e s u l t . r o w s [ 0 ] ; i f ( ! u s e r ) r e t u r n r e s . s t a t u s ( 4 0 1 ) . j s o n ( { e r r o r : ' e m a i l _ a t a u _ s a l a h _ p a s s w o r d ' } ) ; c o n s t o k = a w a i t c o m p a r e P a s s w o r d ( p a s s w o r d , u s e r . p a s s w o r d _ h a s h ) ; i f ( ! o k ) r e t u r n r e s . s t a t u s ( 4 0 1 ) . j s o n ( { e r r o r : ' e m a i l _ a t a u _ s a l a h _ p a s s w o r d ' } ) ; c o n s t { p a s s w o r d _ h a s h , . . . s a f e } = u s e r ; c o n s t t o k e n = s i g n T o k e n ( s a f e ) ; r e s . j s o n ( { t o k e n , u s e r : s a f e } ) ; } ) ; r . g e t ( ' / m e ' , a u t h ( ) , ( r e q , r e s ) = > { p o o l . q u e r y ( ' S E L E C T i d , n a m e , e m a i l , r o l e , p h o n e , s e g m e n t , c o m p a n y F R O M u s e r s W H E R E i d = $ 1 ' , [ r e q . u s e r . i d ] ) . t h e n ( ( q ) = > r e s . j s o n ( { u s e r : q . r o w s [ 0 ] } ) ) . c a t c h ( ( ) = > r e s . s t a t u s ( 5 0 0 ) . j s o n ( { e r r o r : ' g a g a l _ m u a t ' } ) ) ; } ) ; r . p o s t ( ' / f o r g o t ' , ( r e q , r e s ) = > { c o n s t { e m a i l } = r e q . b o d y ; i f ( ! e m a i l ) r e t u r n r e s . s t a t u s ( 4 0 0 ) . j s o n ( { e r r o r : ' e m a i l _ w a j i b ' } ) ; / / p o n y t a i l : t a n p a e m a i l s e r v i c e - u p g r a d e : S E S + r e s e t _ t o k e n r e s . j s o n ( { o k : t r u e } ) ; } ) ; r . p o s t ( ' / r e s e t - p a s s w o r d ' , a u t h ( ) , a s y n c ( r e q , r e s ) = > { c o n s t { n e w _ p a s s w o r d } = r e q . b o d y ; i f ( ! n e w _ p a s s w o r d | | S t r i n g ( n e w _ p a s s w o r d ) . l e n g t h < 6 ) r e t u r n r e s . s t a t u s ( 4 0 0 ) . j s o n ( { e r r o r : ' p a s s w o r d _ m i n y _ 6 _ k a r a k t e r ' } ) ; c o n s t h a s h = a w a i t h a s h P a s s w o r d ( n e w _ p a s s w o r d ) ; a w a i t p o o l . q u e r y ( ' U P D A T E u s e r s S E T p a s s w o r d _ h a s h = $ 1 W H E R E i d = $ 2 ' , [ h a s h , r e q . u s e r . i d ] ) ; r e s . j s o n ( { o k : t r u e } ) ; } ) ; e x p o r t d e f a u l t r ; 
+import { Router } from 'express';
+import pool from '../db.js';
+import { signToken, comparePassword, hashPassword } from '../auth.js';
+import { auth } from '../middleware.js';
+
+const r = Router();
+
+r.post('/register', async (req, res) => {
+  const { name, email, password, role = 'client', phone, segment, company } = req.body;
+  if (!name || !email || !password) return res.status(400).json({ error: 'data_tidak_lengkap' });
+  if (String(password).length < 6) return res.status(400).json({ error: 'password_miny_6_karakter' });
+  const allowed = ['client', 'statistician', 'admin'];
+  const safeRole = allowed.includes(role) ? role : 'client';
+  try {
+    const hash = await hashPassword(password);
+    const info = await pool.query(
+      'INSERT INTO users (name,email,password_hash,role,phone,segment,company) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING id, name, email, role, segment, company',
+      [name, email, hash, safeRole, phone || null, segment || null, company || null]
+    );
+    const user = info.rows[0];
+    const token = signToken(user);
+    res.status(201).json({ token, user });
+  } catch (e) {
+    if (e.code === '23505') return res.status(409).json({ error: 'email_sudah_daftar' });
+    res.status(500).json({ error: 'gagal_daftar' });
+  }
+});
+
+r.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  const result = await pool.query('SELECT * FROM users WHERE email=$1', [email]);
+  const user = result.rows[0];
+  if (!user) return res.status(401).json({ error: 'email_atau_salah_password' });
+  const ok = await comparePassword(password, user.password_hash);
+  if (!ok) return res.status(401).json({ error: 'email_atau_salah_password' });
+  const { password_hash, ...safe } = user;
+  const token = signToken(safe);
+  res.json({ token, user: safe });
+});
+
+r.get('/me', auth(), (req, res) => {
+  pool.query('SELECT id, name, email, role, phone, segment, company FROM users WHERE id=$1', [req.user.id])
+    .then((q) => res.json({ user: q.rows[0] }))
+    .catch(() => res.status(500).json({ error: 'gagal_muat' }));
+});
+
+r.post('/forgot', (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ error: 'email_wajib' });
+  res.json({ ok: true });
+});
+
+r.post('/reset-password', auth(), async (req, res) => {
+  const { new_password } = req.body;
+  if (!new_password || String(new_password).length < 6) return res.status(400).json({ error: 'password_miny_6_karakter' });
+  const hash = await hashPassword(new_password);
+  await pool.query('UPDATE users SET password_hash=$1 WHERE id=$2', [hash, req.user.id]);
+  res.json({ ok: true });
+});
+
+export default r;

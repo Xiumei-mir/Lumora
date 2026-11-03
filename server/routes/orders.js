@@ -1,1 +1,152 @@
- i m p o r t { R o u t e r } f r o m ' e x p r e s s ' ; i m p o r t p o o l f r o m ' . . / d b . j s ' ; i m p o r t { a u t h } f r o m ' . . / m i d d l e w a r e . j s ' ; i m p o r t m u l t e r f r o m ' m u l t e r ' ; i m p o r t p a t h f r o m ' n o d e : p a t h ' ; i m p o r t f s f r o m ' n o d e : f s ' ; c o n s t r = R o u t e r ( ) ; c o n s t u p l o a d D i r = p a t h . r e s o l v e ( p a t h . j o i n ( p r o c e s s . c w d ( ) , ' u p l o a d s ' ) ) ; f s . m k d i r S y n c ( u p l o a d D i r , { r e c u r s i v e : t r u e } ) ; c o n s t s t o r a g e = m u l t e r . d i s k S t o r a g e ( { d e s t i n a t i o n : u p l o a d D i r , f i l e n a m e : ( r e q , f i l e , c b ) = > { c o n s t s a f e = f i l e . o r i g i n a l n a m e . r e p l a c e ( / [ ^ a - z A - Z 0 - 9 . _ - ] / g , ' _ ' ) ; c b ( n u l l , ` $ { D a t e . n o w ( ) } - $ { s a f e } ` ) ; } } ) ; c o n s t u p = m u l t e r ( { s t o r a g e , l i m i t s : { f i l e S i z e : 5 0 * 1 0 2 4 * 1 0 2 4 } } ) ; r . g e t ( ' / ' , a u t h ( ' c l i e n t ' , ' s t a t i s t i c i a n ' , ' a d m i n ' ) , a s y n c ( r e q , r e s ) = > { t r y { l e t r o w s ; i f ( r e q . u s e r . r o l e = = = ' c l i e n t ' ) { r o w s = ( a w a i t p o o l . q u e r y ( ` S E L E C T o . * , s . t i t l e A S s e r v i c e _ t i t l e F R O M o r d e r s o L E F T J O I N s e r v i c e s s O N s . i d = o . s e r v i c e _ i d W H E R E o . u s e r _ i d = $ 1 O R D E R B Y o . c r e a t e d _ a t D E S C ` , [ r e q . u s e r . i d ] ) ) . r o w s ; } e l s e { r o w s = ( a w a i t p o o l . q u e r y ( ` S E L E C T o . * , s . t i t l e A S s e r v i c e _ t i t l e , u . n a m e A S c l i e n t _ n a m e F R O M o r d e r s o L E F T J O I N s e r v i c e s s O N s . i d = o . s e r v i c e _ i d J O I N u s e r s u O N u . i d = o . u s e r _ i d O R D E R B Y o . c r e a t e d _ a t D E S C ` ) ) . r o w s ; } r e s . j s o n ( { o r d e r s : r o w s } ) ; } c a t c h ( e ) { r e s . s t a t u s ( 5 0 0 ) . j s o n ( { e r r o r : ' g a g a l _ m u a t ' } ) ; } } ) ; r . p o s t ( ' / ' , a u t h ( ' c l i e n t ' ) , a s y n c ( r e q , r e s ) = > { c o n s t { s e r v i c e _ i d , p a c k a g e _ n a m e , b r i e f , t o t a l , d u e _ d a t e } = r e q . b o d y ; c o n s t c o d e = ` L U M - $ { D a t e . n o w ( ) . t o S t r i n g ( 3 6 ) . t o U p p e r C a s e ( ) } ` ; c o n s t i n f o = a w a i t p o o l . q u e r y ( ` I N S E R T I N T O o r d e r s ( c o d e , u s e r _ i d , s e r v i c e _ i d , p a c k a g e _ n a m e , b r i e f , t o t a l , d u e _ d a t e , s t a t u s ) V A L U E S ( $ 1 , $ 2 , $ 3 , $ 4 , $ 5 , $ 6 , $ 7 , ' m e n u n g g u _ d a t a ' ) R E T U R N I N G i d ` , [ c o d e , r e q . u s e r . i d , s e r v i c e _ i d | | n u l l , p a c k a g e _ n a m e | | n u l l , b r i e f | | n u l l , t o t a l | | 0 , d u e _ d a t e | | n u l l ] ) ; c o n s t o r d e r I d = i n f o . r o w s [ 0 ] . i d ; a w a i t p o o l . q u e r y ( ' I N S E R T I N T O o r d e r _ e v e n t s ( o r d e r _ i d , s t a t u s , n o t e , a c t o r ) V A L U E S ( $ 1 , $ 2 , $ 3 , $ 4 ) ' , [ o r d e r I d , ' m e n u n g g u _ d a t a ' , ' O r d e r d i b u a t ' , ' c l i e n t ' ] ) ; c o n s t q = a w a i t p o o l . q u e r y ( ` S E L E C T o . * , s . t i t l e A S s e r v i c e _ t i t l e F R O M o r d e r s o L E F T J O I N s e r v i c e s s O N s . i d = o . s e r v i c e _ i d W H E R E o . i d = $ 1 ` , [ o r d e r I d ] ) ; r e s . s t a t u s ( 2 0 1 ) . j s o n ( { o r d e r : q . r o w s [ 0 ] } ) ; } ) ; r . g e t ( ' / : i d ' , a u t h ( ' c l i e n t ' , ' s t a t i s t i c i a n ' , ' a d m i n ' ) , a s y n c ( r e q , r e s ) = > { c o n s t q = a w a i t p o o l . q u e r y ( ` S E L E C T o . * , s . t i t l e A S s e r v i c e _ t i t l e , u . n a m e A S c l i e n t _ n a m e F R O M o r d e r s o L E F T J O I N s e r v i c e s s O N s . i d = o . s e r v i c e _ i d L E F T J O I N u s e r s u O N u . i d = o . u s e r _ i d W H E R E o . i d = $ 1 ` , [ r e q . p a r a m s . i d ] ) ; c o n s t o r d e r = q . r o w s [ 0 ] ; i f ( ! o r d e r ) r e t u r n r e s . s t a t u s ( 4 0 4 ) . j s o n ( { e r r o r : ' o r d e r _ t i d a k _ d i t e m u k a n ' } ) ; i f ( r e q . u s e r . r o l e = = = ' c l i e n t ' & & S t r i n g ( o r d e r . u s e r _ i d ) ! = = S t r i n g ( r e q . u s e r . i d ) ) r e t u r n r e s . s t a t u s ( 4 0 3 ) . j s o n ( { e r r o r : ' a k s e s _ d i t o l a k ' } ) ; c o n s t e v e n t s = ( a w a i t p o o l . q u e r y ( ' S E L E C T * F R O M o r d e r _ e v e n t s W H E R E o r d e r _ i d = $ 1 O R D E R B Y c r e a t e d _ a t D E S C ' , [ o r d e r . i d ] ) ) . r o w s ; c o n s t p a y m e n t s = ( a w a i t p o o l . q u e r y ( ' S E L E C T * F R O M p a y m e n t s W H E R E o r d e r _ i d = $ 1 O R D E R B Y c r e a t e d _ a t D E S C ' , [ o r d e r . i d ] ) ) . r o w s ; r e s . j s o n ( { o r d e r , e v e n t s , p a y m e n t s } ) ; } ) ; c o n s t F L O W = [ ' m e n u n g g u _ p e m b a y a r a n m e n u n g g u _ d a t a v e r i f i k a s i _ d a t a d a l a m _ p e n g e r j a a n r e v i e w _ i n t e r n a l h a s i l _ s i a p r e v i s i s e l e s a i ' ] ; r . p o s t ( ' / : i d / s t a t u s ' , a u t h ( ' a d m i n ' , ' s t a t i s t i c i a n ' ) , a s y n c ( r e q , r e s ) = > { c o n s t { s t a t u s , n o t e } = r e q . b o d y ; i f ( ! F L O W . i n c l u d e s ( s t a t u s ) ) r e t u r n r e s . s t a t u s ( 4 0 0 ) . j s o n ( { e r r o r : ' s t a t u s _ t i d a k _ v a l i d ' } ) ; c o n s t q = a w a i t p o o l . q u e r y ( ' S E L E C T i d , s t a t u s F R O M o r d e r s W H E R E i d = $ 1 ' , [ r e q . p a r a m s . i d ] ) ; i f ( ! q . r o w s [ 0 ] ) r e t u r n r e s . s t a t u s ( 4 0 4 ) . j s o n ( { e r r o r : ' o r d e r _ t i d a k _ d i t e m u k a n ' } ) ; a w a i t p o o l . q u e r y ( ' U P D A T E o r d e r s S E T s t a t u s = $ 1 , u p d a t e d _ a t = n o w ( ) W H E R E i d = $ 2 ' , [ s t a t u s , r e q . p a r a m s . i d ] ) ; a w a i t p o o l . q u e r y ( ' I N S E R T I N T O o r d e r _ e v e n t s ( o r d e r _ i d , s t a t u s , n o t e , a c t o r ) V A L U E S ( $ 1 , $ 2 , $ 3 , $ 4 ) ' , [ r e q . p a r a m s . i d , s t a t u s , n o t e | | n u l l , r e q . u s e r . r o l e ] ) ; r e s . j s o n ( { o k : t r u e , s t a t u s } ) ; } ) ; r . p o s t ( ' / : i d / a s s i g n ' , a u t h ( ' a d m i n ' ) , a s y n c ( r e q , r e s ) = > { c o n s t { u s e r _ i d } = r e q . b o d y ; a w a i t p o o l . q u e r y ( ' U P D A T E o r d e r s S E T a s s i g n e d _ t o = $ 1 W H E R E i d = $ 2 ' , [ u s e r _ i d , r e q . p a r a m s . i d ] ) ; r e s . j s o n ( { o k : t r u e } ) ; } ) ; r . p o s t ( ' / : i d / f i l e s ' , a u t h ( ' c l i e n t ' , ' s t a t i s t i c i a n ' , ' a d m i n ' ) , u p . a r r a y ( ' f i l e s ' , 1 0 ) , a s y n c ( r e q , r e s ) = > { t r y { c o n s t q = a w a i t p o o l . q u e r y ( ' S E L E C T i d , u s e r _ i d , a s s i g n e d _ t o F R O M o r d e r s W H E R E i d = $ 1 ' , [ r e q . p a r a m s . i d ] ) ; c o n s t o r d e r = q . r o w s [ 0 ] ; i f ( ! o r d e r ) r e t u r n r e s . s t a t u s ( 4 0 4 ) . j s o n ( { e r r o r : ' o r d e r _ t i d a k _ d i t e m u k a n ' } ) ; i f ( r e q . u s e r . r o l e = = = ' c l i e n t ' & & S t r i n g ( o r d e r . u s e r _ i d ) ! = = S t r i n g ( r e q . u s e r . i d ) ) r e t u r n r e s . s t a t u s ( 4 0 3 ) . j s o n ( { e r r o r : ' a k s e s _ d i t o l a k ' } ) ; c o n s t f i l e s = [ ] ; f o r ( c o n s t f o f r e q . f i l e s | | [ ] ) { c o n s t i n f o = a w a i t p o o l . q u e r y ( ' I N S E R T I N T O f i l e s ( o r d e r _ i d , u s e r _ i d , k i n d , f i l e n a m e , s t o r e d _ p a t h , s i z e ) V A L U E S ( $ 1 , $ 2 , $ 3 , $ 4 , $ 5 , $ 6 ) R E T U R N I N G * ' , [ o r d e r . i d , r e q . u s e r . i d , ' u p l o a d ' , f . o r i g i n a l n a m e , f . p a t h , f . s i z e ] ) ; f i l e s . p u s h ( i n f o . r o w s [ 0 ] ) ; } r e s . s t a t u s ( 2 0 1 ) . j s o n ( { f i l e s } ) ; } c a t c h ( e ) { r e s . s t a t u s ( 5 0 0 ) . j s o n ( { e r r o r : ' g a g a l _ u n g g a h ' } ) ; } } ) ; r . g e t ( ' / : i d / f i l e s ' , a u t h ( ' c l i e n t ' , ' s t a t i s t i c i a n ' , ' a d m i n ' ) , a s y n c ( r e q , r e s ) = > { c o n s t q = a w a i t p o o l . q u e r y ( ' S E L E C T i d , k i n d , f i l e n a m e , s i z e , v e r s i o n , c r e a t e d _ a t F R O M f i l e s W H E R E o r d e r _ i d = $ 1 O R D E R B Y c r e a t e d _ a t ' , [ r e q . p a r a m s . i d ] ) ; r e s . j s o n ( { f i l e s : q . r o w s } ) ; } ) ; r . g e t ( ' / : i d / f i l e s / : f i d ' , a u t h ( ' c l i e n t ' , ' s t a t i s t i c i a n ' , ' a d m i n ' ) , a s y n c ( r e q , r e s ) = > { c o n s t q = a w a i t p o o l . q u e r y ( ' S E L E C T * F R O M f i l e s W H E R E i d = $ 1 A N D o r d e r _ i d = $ 2 ' , [ r e q . p a r a m s . f i d , r e q . p a r a m s . i d ] ) ; c o n s t f = q . r o w s [ 0 ] ; i f ( ! f ) r e t u r n r e s . s t a t u s ( 4 0 4 ) . j s o n ( { e r r o r : ' b e r k a s _ t i d a k _ d i t e m u k a n ' } ) ; r e s . d o w n l o a d ( f . s t o r e d _ p a t h , f . f i l e n a m e ) ; } ) ; r . g e t ( ' / : i d / m e s s a g e s ' , a u t h ( ' c l i e n t ' , ' s t a t i s t i c i a n ' , ' a d m i n ' ) , a s y n c ( r e q , r e s ) = > { c o n s t q = a w a i t p o o l . q u e r y ( ` S E L E C T m . i d , m . b o d y , m . c r e a t e d _ a t , u . n a m e A S s e n d e r _ n a m e , u . r o l e A S s e n d e r _ r o l e F R O M m e s s a g e s m L E F T J O I N u s e r s u O N u . i d = m . s e n d e r _ i d W H E R E m . o r d e r _ i d = $ 1 O R D E R B Y m . c r e a t e d _ a t ` , [ r e q . p a r a m s . i d ] ) ; r e s . j s o n ( { m e s s a g e s : q . r o w s } ) ; } ) ; r . p o s t ( ' / : i d / m e s s a g e s ' , a u t h ( ' c l i e n t ' , ' s t a t i s t i c i a n ' , ' a d m i n ' ) , a s y n c ( r e q , r e s ) = > { c o n s t { b o d y , a t t a c h m e n t _ i d } = r e q . b o d y ; i f ( ! b o d y & & ! a t t a c h m e n t _ i d ) r e t u r n r e s . s t a t u s ( 4 0 0 ) . j s o n ( { e r r o r : ' p e s a n _ k o s o n g ' } ) ; c o n s t i n f o = a w a i t p o o l . q u e r y ( ' I N S E R T I N T O m e s s a g e s ( o r d e r _ i d , s e n d e r _ i d , b o d y , a t t a c h m e n t _ i d ) V A L U E S ( $ 1 , $ 2 , $ 3 , $ 4 ) R E T U R N I N G * ' , [ r e q . p a r a m s . i d , r e q . u s e r . i d , b o d y | | n u l l , a t t a c h m e n t _ i d | | n u l l ] ) ; r e s . s t a t u s ( 2 0 1 ) . j s o n ( { m e s s a g e : i n f o . r o w s [ 0 ] } ) ; } ) ; r . p o s t ( ' / : i d / p a y m e n t s ' , a u t h ( ' c l i e n t ' , ' s t a t i s t i c i a n ' , ' a d m i n ' ) , a s y n c ( r e q , r e s ) = > { c o n s t { m e t h o d , a m o u n t } = r e q . b o d y ; c o n s t i n f o = a w a i t p o o l . q u e r y ( ' I N S E R T I N T O p a y m e n t s ( o r d e r _ i d , m e t h o d , a m o u n t , s t a t u s , r e f e r e n c e ) V A L U E S ( $ 1 , $ 2 , $ 3 , $ 4 , $ 5 ) R E T U R N I N G * ' , [ r e q . p a r a m s . i d , m e t h o d , a m o u n t , ' p a i d ' , ` R E F - $ { D a t e . n o w ( ) . t o S t r i n g ( 3 6 ) . t o U p p e r C a s e ( ) } ` ] ) ; a w a i t p o o l . q u e r y ( ' U P D A T E o r d e r s S E T p a i d = C O A L E S C E ( p a i d , 0 ) + $ 1 W H E R E i d = $ 2 ' , [ a m o u n t , r e q . p a r a m s . i d ] ) ; r e s . s t a t u s ( 2 0 1 ) . j s o n ( { p a y m e n t : i n f o . r o w s [ 0 ] } ) ; } ) ; e x p o r t d e f a u l t r ; 
+import { Router } from 'express';
+import pool from '../db.js';
+import { auth } from '../middleware.js';
+import multer from 'multer';
+import path from 'node:path';
+import fs from 'node:fs';
+
+const r = Router();
+
+const uploadDir = path.resolve(path.join(process.cwd(), 'uploads'));
+fs.mkdirSync(uploadDir, { recursive: true });
+const storage = multer.diskStorage({
+  destination: uploadDir,
+  filename: (req, file, cb) => {
+    const safe = file.originalname.replace(/[^a-zA-Z0-9._-]/g, '_');
+    cb(null, `${Date.now()}-${safe}`);
+  }
+});
+const up = multer({ storage, limits: { fileSize: 50 * 1024 * 1024 } });
+
+r.get('/', auth('client', 'statistician', 'admin'), async (req, res) => {
+  try {
+    let rows;
+    if (req.user.role === 'client') {
+      rows = (await pool.query(
+        `SELECT o.*, s.title AS service_title FROM orders o LEFT JOIN services s ON s.id=o.service_id WHERE o.user_id=$1 ORDER BY o.created_at DESC`,
+        [req.user.id]
+      )).rows;
+    } else {
+      rows = (await pool.query(
+        `SELECT o.*, s.title AS service_title, u.name AS client_name FROM orders o LEFT JOIN services s ON s.id=o.service_id JOIN users u ON u.id=o.user_id ORDER BY o.created_at DESC`
+      )).rows;
+    }
+    res.json({ orders: rows });
+  } catch (e) { res.status(500).json({ error: 'gagal_muat' }); }
+});
+
+r.post('/', auth('client'), async (req, res) => {
+  const { service_id, package_name, brief, total, due_date } = req.body;
+  const code = `LUM-${Date.now().toString(36).toUpperCase()}`;
+  const info = await pool.query(
+    `INSERT INTO orders (code,user_id,service_id,package_name,brief,total,due_date,status) VALUES ($1,$2,$3,$4,$5,$6,$7,'menunggu_data') RETURNING id`,
+    [code, req.user.id, service_id || null, package_name || null, brief || null, total || 0, due_date || null]
+  );
+  const orderId = info.rows[0].id;
+  await pool.query(
+    'INSERT INTO order_events (order_id,status,note,actor) VALUES ($1,$2,$3,$4)',
+    [orderId, 'menunggu_data', 'Order dibuat', 'client']
+  );
+  const q = await pool.query(
+    `SELECT o.*, s.title AS service_title FROM orders o LEFT JOIN services s ON s.id=o.service_id WHERE o.id=$1`,
+    [orderId]
+  );
+  res.status(201).json({ order: q.rows[0] });
+});
+
+r.get('/:id', auth('client', 'statistician', 'admin'), async (req, res) => {
+  const q = await pool.query(
+    `SELECT o.*, s.title AS service_title, u.name AS client_name FROM orders o LEFT JOIN services s ON s.id=o.service_id LEFT JOIN users u ON u.id=o.user_id WHERE o.id=$1`,
+    [req.params.id]
+  );
+  const order = q.rows[0];
+  if (!order) return res.status(404).json({ error: 'order_tidak_ditemukan' });
+  if (req.user.role === 'client' && String(order.user_id) !== String(req.user.id))
+    return res.status(403).json({ error: 'akses_ditolak' });
+  const events = (await pool.query('SELECT * FROM order_events WHERE order_id=$1 ORDER BY created_at DESC', [order.id])).rows;
+  const payments = (await pool.query('SELECT * FROM payments WHERE order_id=$1 ORDER BY created_at DESC', [order.id])).rows;
+  res.json({ order, events, payments });
+});
+
+const FLOW = ['menunggu_pembayaran','menunggu_data','verifikasi_data','dalam_pengerjaan','review_internal','hasil_siap','revisi','selesai'];
+
+r.post('/:id/status', auth('admin', 'statistician'), async (req, res) => {
+  const { status, note } = req.body;
+  if (!FLOW.includes(status)) return res.status(400).json({ error: 'status_tidak_valid' });
+  const q = await pool.query('SELECT id, status FROM orders WHERE id=$1', [req.params.id]);
+  if (!q.rows[0]) return res.status(404).json({ error: 'order_tidak_ditemukan' });
+  await pool.query('UPDATE orders SET status=$1, updated_at=now() WHERE id=$2', [status, req.params.id]);
+  await pool.query('INSERT INTO order_events (order_id,status,note,actor) VALUES ($1,$2,$3,$4)',
+    [req.params.id, status, note || null, req.user.role]);
+  res.json({ ok: true, status });
+});
+
+r.post('/:id/assign', auth('admin'), async (req, res) => {
+  const { user_id } = req.body;
+  await pool.query('UPDATE orders SET assigned_to=$1 WHERE id=$2', [user_id, req.params.id]);
+  res.json({ ok: true });
+});
+
+r.post('/:id/files', auth('client', 'statistician', 'admin'), up.array('files', 10), async (req, res) => {
+  try {
+    const q = await pool.query('SELECT id,user_id,assigned_to FROM orders WHERE id=$1', [req.params.id]);
+    const order = q.rows[0];
+    if (!order) return res.status(404).json({ error: 'order_tidak_ditemukan' });
+    if (req.user.role === 'client' && String(order.user_id) !== String(req.user.id))
+      return res.status(403).json({ error: 'akses_ditolak' });
+    const files = [];
+    for (const f of req.files || []) {
+      const info = await pool.query(
+        'INSERT INTO files (order_id,user_id,kind,filename,stored_path,size) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *',
+        [order.id, req.user.id, 'upload', f.originalname, f.path, f.size]
+      );
+      files.push(info.rows[0]);
+    }
+    res.status(201).json({ files });
+  } catch (e) { res.status(500).json({ error: 'gagal_unggah' }); }
+});
+
+r.get('/:id/files', auth('client', 'statistician', 'admin'), async (req, res) => {
+  const q = await pool.query(
+    'SELECT id,kind,filename,size,version,created_at FROM files WHERE order_id=$1 ORDER BY created_at',
+    [req.params.id]
+  );
+  res.json({ files: q.rows });
+});
+
+r.get('/:id/files/:fid', auth('client', 'statistician', 'admin'), async (req, res) => {
+  const q = await pool.query('SELECT * FROM files WHERE id=$1 AND order_id=$2', [req.params.fid, req.params.id]);
+  const f = q.rows[0];
+  if (!f) return res.status(404).json({ error: 'berkas_tidak_ditemukan' });
+  res.download(f.stored_path, f.filename);
+});
+
+r.get('/:id/messages', auth('client', 'statistician', 'admin'), async (req, res) => {
+  const q = await pool.query(
+    `SELECT m.id,m.body,m.created_at,u.name AS sender_name,u.role AS sender_role FROM messages m LEFT JOIN users u ON u.id=m.sender_id WHERE m.order_id=$1 ORDER BY m.created_at`,
+    [req.params.id]
+  );
+  res.json({ messages: q.rows });
+});
+
+r.post('/:id/messages', auth('client', 'statistician', 'admin'), async (req, res) => {
+  const { body, attachment_id } = req.body;
+  if (!body && !attachment_id) return res.status(400).json({ error: 'pesan_kosong' });
+  const info = await pool.query(
+    'INSERT INTO messages (order_id,sender_id,body,attachment_id) VALUES ($1,$2,$3,$4) RETURNING *',
+    [req.params.id, req.user.id, body || null, attachment_id || null]
+  );
+  res.status(201).json({ message: info.rows[0] });
+});
+
+r.post('/:id/payments', auth('client', 'statistician', 'admin'), async (req, res) => {
+  const { method, amount } = req.body;
+  const info = await pool.query(
+    'INSERT INTO payments (order_id,method,amount,status,reference) VALUES ($1,$2,$3,$4,$5) RETURNING *',
+    [req.params.id, method, amount, 'paid', `REF-${Date.now().toString(36).toUpperCase()}`]
+  );
+  await pool.query('UPDATE orders SET paid = COALESCE(paid,0) + $1 WHERE id=$2', [amount, req.params.id]);
+  res.status(201).json({ payment: info.rows[0] });
+});
+
+export default r;

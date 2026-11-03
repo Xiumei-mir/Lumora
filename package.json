@@ -13,5 +13,8 @@
   },
   "devDependencies": {
     "vite": "^7.0.0"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^2.0.0"
   }
 }
