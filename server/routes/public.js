@@ -1,16 +1,1 @@
-import { Router } from 'express';
-import pool from '../db.js';
-
-const r = Router();
-
-r.post('/lead', async (req, res) => {
-  const { name, email, phone, segment, service, message } = req.body;
-  if (!name || !email) return res.status(400).json({ error: 'nama_dan_email_wajib' });
-  const info = await pool.query(
-    'INSERT INTO leads (name,email,phone,segment,service,message) VALUES ($1,$2,$3,$4,$5,$6) RETURNING id',
-    [name, email, phone || null, segment || null, service || null, message || null]
-  );
-  res.status(201).json({ ok: true, id: info.rows[0].id });
-});
-
-export default r;
+ i m p o r t { R o u t e r } f r o m ' e x p r e s s ' ; i m p o r t p o o l f r o m ' . . / d b . j s ' ; c o n s t r = R o u t e r ( ) ; r . p o s t ( ' / l e a d ' , a s y n c ( r e q , r e s ) = > { c o n s t { n a m e , e m a i l , p h o n e , s e g m e n t , s e r v i c e , m e s s a g e } = r e q . b o d y ; i f ( ! n a m e | | ! e m a i l ) r e t u r n r e s . s t a t u s ( 4 0 0 ) . j s o n ( { e r r o r : ' n a m a _ d a n _ e m a i l _ w a j i b ' } ) ; c o n s t i n f o = a w a i t p o o l . q u e r y ( ' I N S E R T I N T O l e a d s ( n a m e , e m a i l , p h o n e , s e g m e n t , s e r v i c e , m e s s a g e ) V A L U E S ( $ 1 , $ 2 , $ 3 , $ 4 , $ 5 , $ 6 ) R E T U R N I N G i d ' , [ n a m e , e m a i l , p h o n e | | n u l l , s e g m e n t | | n u l l , s e r v i c e | | n u l l , m e s s a g e | | n u l l ] ) ; r e s . s t a t u s ( 2 0 1 ) . j s o n ( { o k : t r u e , i d : i n f o . r o w s [ 0 ] . i d } ) ; } ) ; e x p o r t d e f a u l t r ; 

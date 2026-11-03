@@ -1,18 +1,1 @@
-import { api, saveSession, getUser } from '/portal-lib.js';
-import { getToken, getUser, saveSession, logout, api } from '/portal-lib.js';
-
-const f = document.getElementById('loginForm');
-const st = document.getElementById('loginStatus');
-f.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  try {
-    const j = await api('/auth/login', { method: 'POST', body: { email: f.email.value, password: f.password.value } });
-    saveSession(j.token, j.user);
-    st.textContent = '';
-    const dest = j.user.role === 'admin' || j.user.role === 'statistician' ? '/admin.html' : '/portal.html';
-    window.location.href = dest;
-  } catch (err) {
-    st.textContent = err.message === 'email_atau_salah_password' ? 'Email atau kata sandi salah.' : 'Gagal masuk: ' + err.message;
-    st.className = 'form-status err';
-  }
-});
+ i m p o r t { a p i , s a v e S e s s i o n , g e t U s e r } f r o m ' / p o r t a l - l i b . j s ' ; i m p o r t { g e t T o k e n , g e t U s e r , s a v e S e s s i o n , l o g o u t , a p i } f r o m ' / p o r t a l - l i b . j s ' ; c o n s t f = d o c u m e n t . g e t E l e m e n t B y I d ( ' l o g i n F o r m ' ) ; c o n s t s t = d o c u m e n t . g e t E l e m e n t B y I d ( ' l o g i n S t a t u s ' ) ; f . a d d E v e n t L i s t e n e r ( ' s u b m i t ' , a s y n c ( e ) = > { e . p r e v e n t D e f a u l t ( ) ; t r y { c o n s t j = a w a i t a p i ( ' / a u t h / l o g i n ' , { m e t h o d : ' P O S T ' , b o d y : { e m a i l : f . e m a i l . v a l u e , p a s s w o r d : f . p a s s w o r d . v a l u e } } ) ; s a v e S e s s i o n ( j . t o k e n , j . u s e r ) ; s t . t e x t C o n t e n t = ' ' ; c o n s t d e s t = j . u s e r . r o l e = = = ' a d m i n ' | | j . u s e r . r o l e = = = ' s t a t i s t i c i a n ' ? ' / a d m i n . h t m l ' : ' / p o r t a l . h t m l ' ; w i n d o w . l o c a t i o n . h r e f = d e s t ; } c a t c h ( e r r ) { s t . t e x t C o n t e n t = e r r . m e s s a g e = = = ' e m a i l _ a t a u _ s a l a h _ p a s s w o r d ' ? ' E m a i l a t a u k a t a s a n d i s a l a h . ' : ' G a g a l m a s u k : ' + e r r . m e s s a g e ; s t . c l a s s N a m e = ' f o r m - s t a t u s e r r ' ; } } ) ; 
