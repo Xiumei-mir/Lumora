@@ -1,0 +1,42 @@
+.transform-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+}
+
+.transform-card {
+  padding: 40px 32px;
+  border-radius: 16px;
+}
+
+.transform-card.before {
+  background: #fef3f3;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+.transform-card.after {
+  background: #f0fdf9;
+  border: 1px solid #67e8f9;
+  color: #0f766e;
+}
+
+.transform-card h3 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.transform-card ul li {
+  font-size: 15px;
+  margin-bottom: 12px;
+  padding-left: 24px;
+  position: relative;
+}
+
+.transform-card ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  font-size: 18px;
+}

@@ -2,10 +2,8 @@
 # Railway install deps otomatis dari server/package.json
 
 [build]
-builder = "NIXPACKS"
-install = "cd server && npm install"
-# Jalankan init-db + seed dulu, baru start server
-start = "cd server && (node init-db.js || true) && (node seed.js || true) && node index.js"
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
 
 [service]
 # Railway auto-set PORT dari environment. Backend baca process.env.PORT
