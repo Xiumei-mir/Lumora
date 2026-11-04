@@ -1,7 +1,10 @@
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
-const port = process.env.PORT || 3000;
+import http from 'http';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const mimeTypes = {
   '.html': 'text/html; charset=utf-8',
@@ -14,7 +17,9 @@ const mimeTypes = {
 
 const distDir = path.join(__dirname, 'dist');
 
-http.createServer((req, res) => {
+const port = process.env.PORT || 3000;
+
+const server = http.createServer((req, res) => {
   let filePath = req.url === '/' ? '/index.html' : req.url.split('?')[0];
   filePath = path.join(distDir, filePath);
   
@@ -32,4 +37,6 @@ http.createServer((req, res) => {
     res.writeHead(200, { 'Content-Type': mimeTypes[ext] || 'application/octet-stream' });
     res.end(data);
   });
-}).listen(port, () => console.log('Lumora static server running on port', port));
+});
+
+server.listen(port, () => console.log('Lumora static server running on port', port));
